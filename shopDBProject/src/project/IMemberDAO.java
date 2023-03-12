@@ -1,4 +1,4 @@
-package ex05;
+package project;
 
 public interface IMemberDAO {
 
@@ -10,10 +10,10 @@ public interface IMemberDAO {
 	int memberIdCheck(String id);
 	
 	// 로그인 기능 (SELECT)
-	 int memberLogin(String id, String password);
+	int memberLogin(String id, String password);
 	
 	// 비밀번호 찾기 기능 (SELECT)
-	
+	String memberPwFind(String id, String phoneNumber);
 	
 	// 정보 수정 기능 (UPDATE)
 	

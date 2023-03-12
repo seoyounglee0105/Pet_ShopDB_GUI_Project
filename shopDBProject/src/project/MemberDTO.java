@@ -1,4 +1,4 @@
-package ex05;
+package project;
 
 public class MemberDTO {
 

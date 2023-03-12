@@ -1,10 +1,8 @@
-package ex05;
+package project;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,14 +18,13 @@ public class LoginFrame extends JFrame implements ActionListener {
 	private JLabel idLabel; // 아이디
 	private JTextField idTextField; // 아이디 입력창
 	private JLabel pwLabel; // 비밀번호
-	private JPasswordField pwPasswordField; // 비밀번호 입력창
+	private JPasswordField pwField; // 비밀번호 입력창
 	private JButton loginButton; // 로그인 버튼
 	
 	private JPanel panel2;
 	private JButton signUpButton; // 회원가입 버튼
 	private JButton pwFindButton; // 비밀번호 찾기 버튼
 	
-	private Color backgroundColor;
 	private int isSuccess = 0;
 	
 	public LoginFrame() {
@@ -46,7 +43,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		idLabel = new JLabel("    아이디");
 		idTextField = new JTextField(10);
 		pwLabel = new JLabel("비밀번호");
-		pwPasswordField = new JPasswordField(10);
+		pwField = new JPasswordField(10);
 		loginButton = new JButton("로그인");
 		
 		panel2 = new JPanel();
@@ -70,7 +67,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		panel1.add(idLabel);
 		panel1.add(idTextField);
 		panel1.add(pwLabel);
-		panel1.add(pwPasswordField);
+		panel1.add(pwField);
 
 		loginButton.setSize(80, 40);
 		loginButton.setLocation(240, 77);
@@ -91,18 +88,24 @@ public class LoginFrame extends JFrame implements ActionListener {
 	private void addEventListener() {
 		signUpButton.addActionListener(this);
 		loginButton.addActionListener(this);
+		pwFindButton.addActionListener(this);
 	}
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton targetButton = (JButton) e.getSource();
 		
+		// 회원 가입 버튼
 		if (targetButton == signUpButton) {
 			new SignUpFrame();
 			
+		} else if (targetButton == pwFindButton) {
+			new pwFindFrame();
+			
+		// 로그인 버튼
 		} else if (targetButton == loginButton) {
 			String id = idTextField.getText();
-			char[] pwChar = pwPasswordField.getPassword();
+			char[] pwChar = pwField.getPassword();
 			String pw = new String(pwChar);
 			
 			MemberDAO memberDAO = new MemberDAO();
@@ -110,17 +113,14 @@ public class LoginFrame extends JFrame implements ActionListener {
 			
 			if (isSuccess == 1) {
 				System.out.println("로그인에 성공했습니다!");
-				// 확인을 누르면 회원가입 프레임 종료
-				JOptionPane.showMessageDialog(null, "로그인 완료", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
+				// 확인을 누르면 로그인 프레임 종료
+				JOptionPane.showMessageDialog(null, id + "님, 환영합니다!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
 				System.exit(0);
 			} else {
 				System.out.println("로그인에 실패했습니다.");
 				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "로그인 실패", JOptionPane.PLAIN_MESSAGE);				
-			}
-			
+			}	
 		}
-		
-		
 	}
 
 	public static void main(String[] args) {

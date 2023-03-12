@@ -1,4 +1,4 @@
-package ex05;
+package project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +30,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 	private JPanel panel2;
 	private JLabel pwLabel; // 비밀번호
-	private JPasswordField pwPasswordField; // 비밀번호 입력창
+	private JPasswordField pwField; // 비밀번호 입력창
 
 	private JPanel panel3;
 	private JLabel nameLabel; // 이름
@@ -47,11 +47,10 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private JPanel parentPanel2;
 
 	private JPanel panel6;
-	private JButton signUpButton; // 회원가입 버튼
-	private Color backgroundColor;
+	private JButton signUpButton; // 회원 가입 버튼
 
 	private JTextField[] textFields = new JTextField[4];
-	private int phoneNumberHintCount = 0;
+	private Boolean phoneHintOff;
 
 	public SignUpFrame() {
 		initData();
@@ -60,10 +59,12 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	}
 
 	private void initData() {
-		setTitle("회원가입");
+		setTitle("회원 가입");
 		setSize(400, 350);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		phoneHintOff = false;
+		
 		parentPanel1 = new JPanel();
 		panel1 = new JPanel();
 		idLabel = new JLabel("     아이디");
@@ -72,7 +73,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 		panel2 = new JPanel();
 		pwLabel = new JLabel("비밀번호");
-		pwPasswordField = new JPasswordField(10);
+		pwField = new JPasswordField(10);
 
 		panel3 = new JPanel();
 		nameLabel = new JLabel("        이름");
@@ -80,7 +81,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 		panel4 = new JPanel();
 		phoneLabel = new JLabel("전화번호");
-		phoneTextField = new JTextField("010-0000-0000", 10);
+		phoneTextField = new JTextField("010-####-####", 10);
 
 		panel5 = new JPanel();
 		addrLabel = new JLabel("        주소");
@@ -88,7 +89,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 		parentPanel2 = new JPanel();
 		panel6 = new JPanel();
-		signUpButton = new JButton("회원가입");
+		signUpButton = new JButton("회원 가입");
 
 		textFields[0] = idTextField;
 		textFields[1] = nameTextField;
@@ -98,17 +99,18 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	}
 
 	private void setInitLayout() {
+		setResizable(false);
+		// 뜨는 위치 지정하는 법 알아보기
+		setLocationRelativeTo(null); // JFrame 가운데 배치
+		Color backgroundColor = new Color(200, 235, 226);
+		getContentPane().setBackground(backgroundColor);
+		
 		add(parentPanel1, BorderLayout.CENTER);
 		parentPanel1.setBackground(backgroundColor);
 		add(parentPanel2, BorderLayout.SOUTH);
 		parentPanel2.setBackground(backgroundColor);
 
 		parentPanel1.setLayout(new FlowLayout(FlowLayout.LEFT, 40, 18));
-		setResizable(false);
-		// 뜨는 위치 지정하는 법 알아보기
-		setLocationRelativeTo(null); // JFrame 가운데 배치
-		Color backgroundColor = new Color(200, 235, 226);
-		getContentPane().setBackground(backgroundColor);
 
 		parentPanel1.add(panel1);
 		panel1.add(idLabel, FlowLayout.LEFT);
@@ -118,7 +120,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 		parentPanel1.add(panel2);
 		panel2.add(pwLabel);
-		panel2.add(pwPasswordField);
+		panel2.add(pwField);
 		panel2.setBackground(backgroundColor);
 
 		parentPanel1.add(panel3);
@@ -181,17 +183,19 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 				// 인식이 안돼서 isEmpty()로 변경했더니 정상 작동
 				if (textFields[i].getText().isEmpty()) {
 					System.out.println("모든 값을 입력해주세요.");
+					JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
 			}
 			// 패스워드필드도 String으로 변경해서 isEmpty()로 써서 정상 작동
-			if (new String(pwPasswordField.getPassword()).isEmpty()) {
+			if (new String(pwField.getPassword()).isEmpty()) {
 				System.out.println("모든 값을 입력해주세요.");
+				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 
 			String id = textFields[0].getText();
-			char[] pwChar = pwPasswordField.getPassword();
+			char[] pwChar = pwField.getPassword();
 			String pw = new String(pwChar);
 			String name = textFields[1].getText();
 			String phoneNumber = textFields[2].getText();
@@ -201,12 +205,12 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			result = memberDAO.memberSignUp(id, pw, name, phoneNumber, address);
 
 			if (result == 1) {
-				System.out.println("회원가입에 성공했습니다!");
+				System.out.println("회원 가입에 성공했습니다!");
 				// 확인을 누르면 회원가입 프레임 종료
-				JOptionPane.showMessageDialog(null, "회원가입에 성공했습니다!", "회원가입 성공", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "회원 가입에 성공했습니다!", "회원 가입 성공", JOptionPane.PLAIN_MESSAGE);
 				this.dispose();
 			} else {
-				JOptionPane.showMessageDialog(null, "중복되거나 입력되지 않은 값이 있는지 확인해주세요.", "회원가입 실패", JOptionPane.PLAIN_MESSAGE);				
+				JOptionPane.showMessageDialog(null, "중복되거나 입력되지 않은 값이 있는지 확인해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);				
 			}
 		}
 	} // end of method
@@ -220,11 +224,10 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		JTextField targetTextField = (JTextField) e.getSource();
 
 		if (targetTextField == phoneTextField) {
-			phoneNumberHintCount++;
-
 			// 처음 눌렀을 때만 힌트가 없어지도록
-			if (phoneNumberHintCount == 1) {
-				targetTextField.setText("");
+			if (phoneHintOff == false) {
+				targetTextField.setText("010-");
+				phoneHintOff = true;
 			}
 		}
 	}
@@ -239,10 +242,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-	}
-
-	public static void main(String[] args) {
-		new SignUpFrame();
 	}
 
 }

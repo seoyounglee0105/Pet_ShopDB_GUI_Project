@@ -1,4 +1,4 @@
-package ex05;
+package project;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

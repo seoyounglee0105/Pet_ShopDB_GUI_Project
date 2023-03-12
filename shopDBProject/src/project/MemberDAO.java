@@ -1,4 +1,4 @@
-package ex05;
+package project;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,6 @@ public class MemberDAO implements IMemberDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-	private int result;
 
 	public MemberDAO() {
 		dbHelper = DBHelper.getInstance();
@@ -21,7 +20,7 @@ public class MemberDAO implements IMemberDAO {
 	// 회원 가입 기능
 	@Override
 	public int memberSignUp(String id, String password, String name, String phoneNumber, String address) {
-		result = 0; // 초기화
+		int result = 0; // 초기화
 		
 		String sql = " INSERT INTO member(id, password, name, phone_number, address) " + "VALUES (?, ?, ?, ?, ?) ";
 
@@ -46,9 +45,10 @@ public class MemberDAO implements IMemberDAO {
 		return result;
 	}
 
+	// 아이디 중복 확인 기능
 	@Override
 	public int memberIdCheck(String id) {
-		result = 0; // 초기화
+		int result = 0; // 초기화
 		
 		String sql = " SELECT * FROM member WHERE id = ? ";
 
@@ -75,11 +75,12 @@ public class MemberDAO implements IMemberDAO {
 		return result;
 	}
 
+	// 로그인 기능
 	@Override
 	public int memberLogin(String id, String password) {
-		result = 0; // 초기화
+		int result = 0; // 초기화
 		
-		String sql = " SELECT * FROM member " + " WHERE id = ? AND password = ? ";
+		String sql = " SELECT * FROM member WHERE id = ? AND password = ? ";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -103,6 +104,39 @@ public class MemberDAO implements IMemberDAO {
 			}
 		}
 		return result;
+	}
+
+	// 비밀번호 찾기 기능
+	@Override
+	public String memberPwFind(String id, String phoneNumber) {
+		String resultPw = null;
+		
+		String sql = " SELECT * FROM member WHERE id = ? AND phone_number = ? "; 
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, phoneNumber);
+			rs = pstmt.executeQuery();
+
+			// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				resultPw = rs.getString("password");
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultPw;
 	}
 
 }
