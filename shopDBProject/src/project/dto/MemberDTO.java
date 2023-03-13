@@ -1,4 +1,4 @@
-package project;
+package project.dto;
 
 public class MemberDTO {
 
@@ -8,12 +8,11 @@ public class MemberDTO {
 	private String name;
 	private String phone_number;
 	private String address;
+	private String birthDay;
 
-	public MemberDTO(String id, String password, String member_grade, String name, String phone_number, String address,
-			String email) {
+	public MemberDTO(String id, String password, String name, String phone_number, String address) {
 		this.id = id;
 		this.password = password;
-		this.member_grade = member_grade;
 		this.name = name;
 		this.phone_number = phone_number;
 		this.address = address;

@@ -10,14 +10,15 @@ USE my_shopdb;
 -- 그다음에 상품 카테고리 만들어서 해당하는 상품을 주르르 나오게
 
 DROP TABLE member;
+DROP TABLE grade;
 
 -- 회원 테이블
 CREATE TABLE member (
     id VARCHAR(15) PRIMARY KEY,  -- 아이디
     password VARCHAR(20) NOT NULL,  -- 비밀번호
     member_grade VARCHAR(10) NOT NULL DEFAULT '브론즈',  -- 회원 등급 (외래키)
-    name VARCHAR(10) NOT NULL,  -- 이름
-    phone_number VARCHAR(13) NOT NULL,  -- 전화번호
+    name VARCHAR(30) NOT NULL,  -- 이름
+    phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
     address VARCHAR(100) NOT NULL,  -- 주소
     FOREIGN KEY (member_grade) REFERENCES grade(name) 
 );

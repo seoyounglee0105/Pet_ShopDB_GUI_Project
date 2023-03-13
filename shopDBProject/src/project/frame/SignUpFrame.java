@@ -1,4 +1,4 @@
-package project;
+package project.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +19,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import project.dao.MemberDAO;
+import project.dto.MemberDTO;
+
 public class SignUpFrame extends JFrame implements ActionListener, MouseListener {
 
 	private JPanel parentPanel1;
@@ -26,7 +29,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private JPanel panel1;
 	private JLabel idLabel; // 아이디
 	private JTextField idTextField; // 아이디 입력창
-	private JButton idCheckButton; // 중복확인 버튼
+	private JButton idCheckButton; // 아이디 중복 확인 버튼
 
 	private JPanel panel2;
 	private JLabel pwLabel; // 비밀번호
@@ -39,6 +42,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private JPanel panel4;
 	private JLabel phoneLabel; // 전화번호
 	private JTextField phoneTextField; // 전화번호 입력창
+	private JButton phoneCheckButton; // 전화번호 중복 확인 버튼
 
 	private JPanel panel5;
 	private JLabel addrLabel; // 주소
@@ -50,7 +54,8 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private JButton signUpButton; // 회원 가입 버튼
 
 	private JTextField[] textFields = new JTextField[4];
-	private Boolean phoneHintOff;
+	private boolean idHintOff;
+	private boolean phoneHintOff;
 
 	public SignUpFrame() {
 		initData();
@@ -63,12 +68,13 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		setSize(400, 350);
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		idHintOff = false;
 		phoneHintOff = false;
 		
 		parentPanel1 = new JPanel();
 		panel1 = new JPanel();
 		idLabel = new JLabel("     아이디");
-		idTextField = new JTextField("", 10);
+		idTextField = new JTextField("15자 이내 작성", 10);
 		idCheckButton = new JButton("중복 확인");
 
 		panel2 = new JPanel();
@@ -82,6 +88,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		panel4 = new JPanel();
 		phoneLabel = new JLabel("전화번호");
 		phoneTextField = new JTextField("010-####-####", 10);
+		phoneCheckButton = new JButton("중복 확인");
 
 		panel5 = new JPanel();
 		addrLabel = new JLabel("        주소");
@@ -131,6 +138,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		parentPanel1.add(panel4);
 		panel4.add(phoneLabel);
 		panel4.add(phoneTextField);
+		panel4.add(phoneCheckButton);
 		panel4.setBackground(backgroundColor);
 
 		parentPanel1.add(panel5);
@@ -148,6 +156,8 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private void addEventListener() {
 		signUpButton.addActionListener(this);
 		idCheckButton.addActionListener(this);
+		phoneCheckButton.addActionListener(this);
+		idTextField.addMouseListener(this);
 		phoneTextField.addMouseListener(this);
 	}
 
@@ -156,14 +166,14 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		JButton targetButton = (JButton) e.getSource();
 		int result = 0;
 
-		// 아이디 중복확인 버튼
+		// 아이디 중복 확인 버튼
 		if (targetButton == idCheckButton) {
 			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
 			if (idTextField.getText().isEmpty()) {
 				System.out.println("값이 입력되지 않았습니다.");
 				return;
 			}
-			String id = textFields[0].getText();
+			String id = idTextField.getText();
 			
 			MemberDAO memberDAO = new MemberDAO();
 			result = memberDAO.memberIdCheck(id);
@@ -174,35 +184,73 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			} else {				
 				JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.", "", JOptionPane.PLAIN_MESSAGE);	
 			}
+			
+		// 전화번호 중복 확인 버튼
+		} else if (targetButton == phoneCheckButton) {
+			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
+			if (phoneTextField.getText().isEmpty()) {
+				System.out.println("값이 입력되지 않았습니다.");
+				return;
+			}
+			String phoneNumber = phoneTextField.getText();
+			
+			MemberDAO memberDAO = new MemberDAO();
+			result = memberDAO.memberPhoneCheck(phoneNumber);
+			
+			// 전화번호가 중복되었다면
+			if (result == 1) {
+				JOptionPane.showMessageDialog(null, "이미 존재하는 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);	
+			} else {				
+				JOptionPane.showMessageDialog(null, "사용 가능한 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);	
+			}
 
 		// 회원가입 버튼
 		} else if (targetButton == signUpButton) {
-			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
+			// 방어적 코드
 			for (int i = 0; i < textFields.length; i++) {
-				// 원래 했던 방식은 textFields[i].getText() == null이랑 ""이었는데
-				// 인식이 안돼서 isEmpty()로 변경했더니 정상 작동
+				// 텍스트 필드에 값이 입력되지 않았다면 실행 X
 				if (textFields[i].getText().isEmpty()) {
 					System.out.println("모든 값을 입력해주세요.");
 					JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
 			}
-			// 패스워드필드도 String으로 변경해서 isEmpty()로 써서 정상 작동
+			// 패스워드 필드에 값이 입력되지 않았다면 실행 X
 			if (new String(pwField.getPassword()).isEmpty()) {
-				System.out.println("모든 값을 입력해주세요.");
 				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
-
+			// id, 전화번호를 입력하지 않아 힌트가 그대로 남아 있으면 실행 X
+			if (idHintOff == false || phoneHintOff == false) {
+				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
+				return;				
+			}
+			// 전화번호 형식 확인
+			// '-'가 인덱스 3번, 8번에 나와야 하고, 총 길이가 13이어야 함
+			if (phoneTextField.getText().indexOf("-") != 3 || phoneTextField.getText().lastIndexOf("-" ) != 8
+					|| phoneTextField.getText().length() != 13) {
+				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);				
+				return;
+			}
+			
+			
 			String id = textFields[0].getText();
 			char[] pwChar = pwField.getPassword();
 			String pw = new String(pwChar);
 			String name = textFields[1].getText();
 			String phoneNumber = textFields[2].getText();
 			String address = textFields[3].getText();
-
+			
 			MemberDAO memberDAO = new MemberDAO();
-			result = memberDAO.memberSignUp(id, pw, name, phoneNumber, address);
+			
+			// id나 전화번호가 중복된 경우 실행 X
+			if (memberDAO.memberIdCheck(id) == 1 
+					|| memberDAO.memberPhoneCheck(phoneNumber) == 1) {
+				JOptionPane.showMessageDialog(null, "id 또는 전화번호가 이미 사용 중입니다.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);								
+				return;
+			}
+
+			result = memberDAO.memberSignUp(new MemberDTO(id, pw, name, phoneNumber, address));
 
 			if (result == 1) {
 				System.out.println("회원 가입에 성공했습니다!");
@@ -223,11 +271,19 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	public void mousePressed(MouseEvent e) {
 		JTextField targetTextField = (JTextField) e.getSource();
 
+		// 전화번호 힌트
 		if (targetTextField == phoneTextField) {
 			// 처음 눌렀을 때만 힌트가 없어지도록
 			if (phoneHintOff == false) {
 				targetTextField.setText("010-");
 				phoneHintOff = true;
+			}
+		// id 힌트
+		} else if (targetTextField == idTextField) {
+			// 처음 눌렀을 때만 힌트가 없어지도록
+			if (idHintOff == false) {
+				targetTextField.setText("");
+				idHintOff = true;
 			}
 		}
 	}

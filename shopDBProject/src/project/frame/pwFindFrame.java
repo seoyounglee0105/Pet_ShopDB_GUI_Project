@@ -1,4 +1,4 @@
-package project;
+package project.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import project.dao.MemberDAO;
 
 public class pwFindFrame extends JFrame implements ActionListener, MouseListener {
 

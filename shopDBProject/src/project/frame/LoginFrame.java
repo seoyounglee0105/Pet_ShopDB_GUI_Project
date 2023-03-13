@@ -1,4 +1,4 @@
-package project;
+package project.frame;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import project.dao.MemberDAO;
 
 public class LoginFrame extends JFrame implements ActionListener {
 
