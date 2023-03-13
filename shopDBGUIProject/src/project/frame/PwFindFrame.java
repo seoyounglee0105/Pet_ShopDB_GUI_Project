@@ -16,10 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import project.controller.MemberController;
 import project.dao.MemberDAO;
 
 public class PwFindFrame extends JFrame implements ActionListener, MouseListener {
 
+	private MemberController memberController;
+	
 	private JLabel idLabel; // 아이디
 	private JTextField idTextField; // 아이디 입력창
 	private JLabel phoneLabel; // 전화번호
@@ -37,6 +40,7 @@ public class PwFindFrame extends JFrame implements ActionListener, MouseListener
 		setTitle("비밀번호 찾기");
 		setSize(400, 200);
 		
+		memberController = new MemberController();
 		phoneHintOff = false;
 
 		idLabel = new JLabel("    아이디");
@@ -90,21 +94,11 @@ public class PwFindFrame extends JFrame implements ActionListener, MouseListener
 		
 		// 비밀번호 찾기 버튼
 		if (targetButton == pwFindButton) {
-			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
-			if (idTextField.getText().isEmpty()) {
-				System.out.println("값이 입력되지 않았습니다.");
-				return;
-			}
-			if (phoneTextField.getText().isEmpty()) {
-				System.out.println("값이 입력되지 않았습니다.");
-				return;
-			}
 			
 			String id = idTextField.getText();
 			String phoneNumber = phoneTextField.getText();
 			
-			MemberDAO memberDAO = new MemberDAO();
-//			resultPw = memberDAO.memberPwFind(id, phoneNumber);
+			resultPw = memberController.requestFindPassword(id, phoneNumber);
 			
 			// 입력된 정보가 정확하다면
 			if (resultPw != null) {
@@ -137,16 +131,13 @@ public class PwFindFrame extends JFrame implements ActionListener, MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
 	}
 }

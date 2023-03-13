@@ -175,8 +175,4 @@ public class MemberDAO implements IMemberDAO {
 		return resultPw;
 	} // end of selectByIdAndPhoneNumber
 	
-	
-
-
-
 }

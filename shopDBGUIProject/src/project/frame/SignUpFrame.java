@@ -173,9 +173,8 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 		// 아이디 중복 확인 버튼
 		if (targetButton == idCheckButton) {
-			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
+			// 방어적 코드 (입력되지 않았다면 실행 X)
 			if (idHintOff == false) {
-				JOptionPane.showMessageDialog(null, "값이 입력되지 않았습니다.", "", JOptionPane.PLAIN_MESSAGE);	
 				return;
 			}
 			String id = idTextField.getText();
@@ -195,22 +194,26 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			
 		// 전화번호 중복 확인 버튼
 		} else if (targetButton == phoneCheckButton) {
-			// 방어적 코드 (입력되지 않은 값이 있다면 실행 X)
-			if (phoneTextField.getText().isEmpty() || phoneHintOff == false) {
-				System.out.println("값이 입력되지 않았습니다.");
-				JOptionPane.showMessageDialog(null, "값이 입력되지 않았습니다.", "", JOptionPane.PLAIN_MESSAGE);	
+			// 방어적 코드 (입력되지 않았다면 실행 X)
+			if (phoneHintOff == false) {
 				return;
 			}
 			String phoneNumber = phoneTextField.getText();
 			
-//			MemberDAO memberDAO = new MemberDAO();
-//			isduplicate = memberDAO.checkPhoneNumber(phoneNumber);
+			result = memberController.requestCheckPhoneNumber(phoneNumber);
 			
+			// 값이 입력되지 않았다면
+			if (result == 2) {
+				JOptionPane.showMessageDialog(null, "값이 입력되지 않았습니다.", "", JOptionPane.PLAIN_MESSAGE);					
+			// 전화번호 형식에 맞지 않다면
+			} else if (result == 3) {
+				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);								
 			// 전화번호가 중복되었다면
-			if (isduplicate == true) {
-				JOptionPane.showMessageDialog(null, "이미 존재하는 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);	
-			} else {				
-				JOptionPane.showMessageDialog(null, "사용 가능한 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);	
+			} else if (result == 1) {
+				JOptionPane.showMessageDialog(null, "이미 존재하는 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);				
+			// 전화번호가 중복되지 않았다면 (0)
+			} else {
+				JOptionPane.showMessageDialog(null, "사용 가능한 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);					
 			}
 
 		// 회원가입 버튼
@@ -222,8 +225,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			}
 			
 			String id = textFields[0].getText();
-			char[] pwChar = pwField.getPassword();
-			String pw = new String(pwChar);
+			String pw = new String(pwField.getPassword());
 			String name = textFields[1].getText();
 			String phoneNumber = textFields[2].getText();
 			String address = textFields[3].getText();
@@ -257,9 +259,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		} // end of signUpButton
 	} // end of method
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -280,6 +279,10 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 				idHintOff = true;
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
 	}
 
 	@Override

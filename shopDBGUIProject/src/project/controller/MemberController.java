@@ -26,4 +26,28 @@ public class MemberController {
 		response = memberService.checkId(id);
 		return response;
 	}
+	
+	// phoneNumber 값을 받아 중복된 phoneNumber인지 체크
+	public int requestCheckPhoneNumber(String phoneNumber) {
+		int response = 0;
+		// 중복 시 1 반환 (중복되지 않았다면 0, 값 미입력 시 2 반환)
+		response = memberService.checkPhoneNumber(phoneNumber);
+		return response;
+	}
+	
+	// id와 password 값을 받아 로그인 처리
+	public MemberDTO requestLogin(String id, String password) {
+		MemberDTO response = null;
+		// 정보가 정확하다면 DTO 객체 반환 (정확하지 않거나 값 미입력 시 null 반환)
+		response = memberService.loginMember(id, password);
+		return response;
+	}
+	
+	// id와 phoneNumber 값을 받아 비밀번호 찾기
+	public String requestFindPassword(String id, String phoneNumber) {
+		String response = null;
+		// 정보가 정확하다면 password 반환 (정확하지 않거나 값 미입력 시 null 반환)
+		response = memberService.findPassword(id, phoneNumber);
+		return response;
+	}
 }
