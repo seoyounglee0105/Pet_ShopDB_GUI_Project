@@ -20,9 +20,69 @@ public class MemberDAO implements IMemberDAO {
 		conn = dbHelper.getConnection();
 	}
 
-	// 회원 가입 기능
+	// 아이디 중복 확인 기능
 	@Override
-	public int memberSignUp(MemberDTO dto) {
+	public int selectById(String id) {
+		int result = 0;
+		
+		String sql = " SELECT * FROM member WHERE id = ? ";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+
+		// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				result = 1; // 아이디 중복
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	// 전화번호 중복 확인 기능
+	@Override
+	public int selectByPhoneNumber(String phoneNumber) {
+		int result = 0;
+		
+		String sql = " SELECT * FROM member WHERE phone_number = ? ";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, phoneNumber);
+			rs = pstmt.executeQuery();
+
+		// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				result = 1; // 전화번호 중복
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	// 회원 추가 (회원가입)
+	@Override
+	public int insert(MemberDTO dto) {
 		int result = 0; // 초기화
 		
 		String sql = " INSERT INTO member(id, password, name, phone_number, address) " + "VALUES (?, ?, ?, ?, ?) ";
@@ -46,72 +106,11 @@ public class MemberDAO implements IMemberDAO {
 			}
 		}
 		return result;
-	}
+	} // end of insert
 
-	// 아이디 중복 확인 기능
+	// 아이디와 비밀번호를 알 때 (로그인)
 	@Override
-	public boolean memberIdCheck(String id) {
-		boolean isduplicate = false; // 초기화
-		
-		String sql = " SELECT * FROM member WHERE id = ? ";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-		// 행이 존재한다면 while문으로 들어감
-			while (rs.next()) {
-				isduplicate = true; // 아이디 중복
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				rs.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return isduplicate;
-	}
-	
-	// 전화번호 중복 확인 기능
-	@Override
-	public boolean memberPhoneCheck(String phoneNumber) {
-		boolean isduplicate = false; // 초기화
-		
-		String sql = " SELECT * FROM member WHERE phone_number = ? ";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, phoneNumber);
-			rs = pstmt.executeQuery();
-
-		// 행이 존재한다면 while문으로 들어감
-			while (rs.next()) {
-				isduplicate = true; // 전화번호 중복
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				rs.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return isduplicate;
-	}
-
-	// 비밀번호
-	// 로그인 기능
-	@Override
-	public MemberDTO memberLogin(String id, String password) {
+	public MemberDTO selectByIdAndPassword(String id, String password) {
 		MemberDTO resultMemberDTO = null; // 초기화
 		
 		String sql = " SELECT * FROM member WHERE id = ? AND password = ? ";
@@ -143,11 +142,11 @@ public class MemberDAO implements IMemberDAO {
 			}
 		}
 		return resultMemberDTO;
-	}
+	} // end of selectByIdAndPassword
 
-	// 비밀번호 찾기 기능
+	// 비밀번호를 모르고, 아이디와 전화번호를 알 때 (비밀번호 찾기)
 	@Override
-	public String memberPwFind(String id, String phoneNumber) {
+	public String selectByIdAndPhoneNumber(String id, String phoneNumber) {
 		String resultPw = null;
 		
 		String sql = " SELECT * FROM member WHERE id = ? AND phone_number = ? "; 
@@ -173,9 +172,10 @@ public class MemberDAO implements IMemberDAO {
 				e.printStackTrace();
 			}
 		}
-		
 		return resultPw;
-	}
+	} // end of selectByIdAndPhoneNumber
+	
+	
 
 
 

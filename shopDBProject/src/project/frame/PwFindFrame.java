@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import project.dao.MemberDAO;
 
-public class pwFindFrame extends JFrame implements ActionListener, MouseListener {
+public class PwFindFrame extends JFrame implements ActionListener, MouseListener {
 
 	private JLabel idLabel; // 아이디
 	private JTextField idTextField; // 아이디 입력창
@@ -27,7 +27,7 @@ public class pwFindFrame extends JFrame implements ActionListener, MouseListener
 	private JButton pwFindButton; // 비밀번호 찾기 버튼
 	private Boolean phoneHintOff;
 	
-	public pwFindFrame() {
+	public PwFindFrame() {
 		initData();
 		setInitLayout();
 		addEventListener();

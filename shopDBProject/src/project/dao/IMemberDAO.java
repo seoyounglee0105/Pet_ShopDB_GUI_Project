@@ -8,13 +8,13 @@ public interface IMemberDAO {
 	int memberSignUp(MemberDTO dto);
 	
 	// 아이디 중복 확인 기능 (SELECT)
-	int memberIdCheck(String id);
+	boolean memberIdCheck(String id);
 	
 	// 전화번호 중복 확인 기능 (SELECT)
-	int memberPhoneCheck(String phoneNumber);
+	boolean memberPhoneCheck(String phoneNumber);
 	
 	// 로그인 기능 (SELECT)
-	int memberLogin(String id, String password);
+	MemberDTO memberLogin(String id, String password);
 	
 	// 비밀번호 찾기 기능 (SELECT)
 	String memberPwFind(String id, String phoneNumber);

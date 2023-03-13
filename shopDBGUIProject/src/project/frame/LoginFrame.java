@@ -100,29 +100,29 @@ public class LoginFrame extends JFrame implements ActionListener {
 			new SignUpFrame();
 			
 		} else if (targetButton == pwFindButton) {
-			new PwFindFrame();
+			new PwFindFrame();}
 			
 		// 로그인 버튼
-		} else if (targetButton == loginButton) {
-			String id = idTextField.getText();
-			char[] pwChar = pwField.getPassword();
-			String pw = new String(pwChar);
-			
-			MemberDAO memberDAO = new MemberDAO();
-			MemberDTO loginMemberDTO = memberDAO.memberLogin(id, pw);
-			
-			// null이면 로그인에 실패한 것
-			if (loginMemberDTO == null) {
-				System.out.println("로그인에 실패했습니다.");
-				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "로그인 실패", JOptionPane.PLAIN_MESSAGE);								
-				
-			} else {
-				System.out.println("로그인에 성공했습니다!");
-				// 확인을 누르면 로그인 프레임 닫기 + 쇼핑몰 홈페이지 프레임
-				JOptionPane.showMessageDialog(null, id + "님, 환영합니다!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
-				this.dispose();
-			}			
-		}
+//		} else if (targetButton == loginButton) {
+//			String id = idTextField.getText();
+//			char[] pwChar = pwField.getPassword();
+//			String pw = new String(pwChar);
+//			
+//			MemberDAO memberDAO = new MemberDAO();
+//			MemberDTO loginMemberDTO = memberDAO.memberLogin(id, pw);
+//			
+//			// null이면 로그인에 실패한 것
+//			if (loginMemberDTO == null) {
+//				System.out.println("로그인에 실패했습니다.");
+//				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "로그인 실패", JOptionPane.PLAIN_MESSAGE);								
+//				
+//			} else {
+//				System.out.println("로그인에 성공했습니다!");
+//				// 확인을 누르면 로그인 프레임 닫기 + 쇼핑몰 홈페이지 프레임
+//				JOptionPane.showMessageDialog(null, id + "님, 환영합니다!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
+//				this.dispose();
+//			}			
+//		}
 	}
 
 	public static void main(String[] args) {
