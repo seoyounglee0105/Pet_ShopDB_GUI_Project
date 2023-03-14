@@ -6,7 +6,10 @@ import project.dto.MemberDTO;
 public class MemberService {
 
 	private MemberDAO memberDAO;
-
+	// 오타 방지를 위해 String 배열로 선언해서 사용
+	private String[] memberColumns = {"id", "password", "member_grade", 
+																"name", "phone_number", "address"};
+	
 	public MemberService() {
 		memberDAO = new MemberDAO();
 	}
@@ -31,8 +34,8 @@ public class MemberService {
 			return result;
 
 			// id나 전화번호가 중복된 경우 실행 X (result == 4)
-		} else if (memberDAO.selectById(member.getId()) == 1
-				|| memberDAO.selectByPhoneNumber(member.getPhoneNumber()) == 1) {
+		} else if ( memberDAO.select(memberColumns[0], member.getId()).size() == 1
+						|| memberDAO.select(memberColumns[4], member.getPhoneNumber()).size() == 1 ) {
 			result = 4;
 			return result;
 		}
@@ -54,7 +57,7 @@ public class MemberService {
 			return result;
 		}
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.selectById(id);
+		result = memberDAO.select(memberColumns[0], id).size(); 
 		return result;
 	} // end of checkId
 
@@ -62,21 +65,21 @@ public class MemberService {
 	public int checkPhoneNumber(String phoneNumber) {
 		int result = 0;
 
-		// phonNumber가 입력되지 않았다면 실행 X (result == 2)
+		// phonNumber가 입력되지 않았다면 실행 X (result == 3)
 		if (phoneNumber.equals("")) {
-			result = 2;
+			result = 3;
 			return result;
 			
-		// 전화번호 형식에 맞지 않다면 실행 X (result == 3)
+		// 전화번호 형식에 맞지 않다면 실행 X (result == 2)
 		// '-'가 인덱스 3번, 8번에 나와야 하고, 총 길이가 13이어야 함
 		} else if (phoneNumber.indexOf("-") != 3 || phoneNumber.lastIndexOf("-") != 8
 				|| phoneNumber.length() != 13) {
-			result = 3;
+			result = 2;
 			return result;
 		}
 
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.selectByPhoneNumber(phoneNumber);
+		result = memberDAO.select(memberColumns[4], phoneNumber).size();
 		return result;
 	} // end of checkPhoneNumber
 	
@@ -89,8 +92,9 @@ public class MemberService {
 			return resultMemberDTO;
 		}
 		
-		// 입력한 정보가 정확하다면 객체가 생성됨
-		resultMemberDTO = memberDAO.selectByIdAndPassword(id, password);		
+		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
+		resultMemberDTO = memberDAO.select(memberColumns[0], id, 
+																				   memberColumns[1], password);		
 		return resultMemberDTO;
 	} // end of loginMember
 	
@@ -103,8 +107,14 @@ public class MemberService {
 			return resultPw;
 		}
 		
-		// 입력한 정보가 정확하다면 resultPw에 비밀번호 정보가 담김
-		resultPw = memberDAO.selectByIdAndPhoneNumber(id, phoneNumber);
+		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
+		MemberDTO targetDto = memberDAO.select(memberColumns[0], id, 
+																							memberColumns[4], phoneNumber);
+		
+		// 방어적 코드 (null이 아닐 때만)
+		if (targetDto != null) {
+			resultPw = targetDto.getPassword();
+		}
 		return resultPw;
 	} // end of findPassword
 

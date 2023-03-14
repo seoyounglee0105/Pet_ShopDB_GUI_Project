@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,11 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import project.controller.MemberController;
-import project.dao.MemberDAO;
 import project.dto.MemberDTO;
 
 public class SignUpFrame extends JFrame implements ActionListener, MouseListener {
@@ -69,7 +65,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private void initData() {
 		setTitle("회원 가입");
 		setSize(400, 350);
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		idHintOff = false;
 		phoneHintOff = false;
@@ -168,7 +163,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton targetButton = (JButton) e.getSource();
-		boolean isduplicate = false;
 		int result = 0;
 
 		// 아이디 중복 확인 버튼
@@ -181,16 +175,13 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			
 			result = memberController.requestCheckId(id);
 			
-			// 값이 입력되지 않았다면
-			if (result == 2) {
-				JOptionPane.showMessageDialog(null, "값이 입력되지 않았습니다.", "", JOptionPane.PLAIN_MESSAGE);					
+			// 아이디가 중복되지 않았다면 (0)
+			if (result == 0) {
+				JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.", "", JOptionPane.PLAIN_MESSAGE);					
 			// 아이디가 중복되었다면
 			} else if (result == 1) {
 				JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.", "", JOptionPane.PLAIN_MESSAGE);				
-			// 아이디가 중복되지 않았다면 (0)
-			} else {
-				JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다.", "", JOptionPane.PLAIN_MESSAGE);					
-			}
+			} // 그 외에는 메시지 출력 X
 			
 		// 전화번호 중복 확인 버튼
 		} else if (targetButton == phoneCheckButton) {
@@ -202,19 +193,16 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			
 			result = memberController.requestCheckPhoneNumber(phoneNumber);
 			
-			// 값이 입력되지 않았다면
-			if (result == 2) {
-				JOptionPane.showMessageDialog(null, "값이 입력되지 않았습니다.", "", JOptionPane.PLAIN_MESSAGE);					
-			// 전화번호 형식에 맞지 않다면
-			} else if (result == 3) {
-				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);								
+			// 전화번호가 중복되지 않았다면 (0)
+			if (result == 0) {
+				JOptionPane.showMessageDialog(null, "사용 가능한 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);					
 			// 전화번호가 중복되었다면
 			} else if (result == 1) {
 				JOptionPane.showMessageDialog(null, "이미 존재하는 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);				
-			// 전화번호가 중복되지 않았다면 (0)
-			} else {
-				JOptionPane.showMessageDialog(null, "사용 가능한 전화번호입니다.", "", JOptionPane.PLAIN_MESSAGE);					
-			}
+			// 전화번호 형식에 맞지 않다면
+			} else if (result == 2) {
+				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);								
+			} // 그 외에는 메세지 출력 X
 
 		// 회원가입 버튼
 		} else if (targetButton == signUpButton) {

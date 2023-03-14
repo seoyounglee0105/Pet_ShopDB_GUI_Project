@@ -71,10 +71,10 @@ public class MemberDTO {
 		this.phoneNumber = phoneNumber;
 	}
 
-
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return "MemberDTO [id=" + id + ", password=" + password + ", memberGrade=" + memberGrade + ", name=" + name
+				+ ", phoneNumber=" + phoneNumber + ", address=" + address + "]";
+	}
 	
 }

@@ -1,5 +1,7 @@
 package project.dao;
 
+import java.util.ArrayList;
+
 import project.dto.MemberDTO;
 
 public interface IMemberDAO {
@@ -7,17 +9,12 @@ public interface IMemberDAO {
 	// 회원 추가 (회원가입)
 	int insert(MemberDTO dto);
 	
-	// 아이디와 비밀번호를 알 때 (로그인)
-	MemberDTO selectByIdAndPassword(String id, String password);
-
-	// 비밀번호를 모르고, 아이디와 전화번호를 알 때 (비밀번호 찾기)
-	String selectByIdAndPhoneNumber(String id, String phoneNumber);
+	// 한 개의 조건을 이용한 SELECT
+	ArrayList<MemberDTO> select(String column, String value) ;
 	
-	// 아이디 중복 확인 기능 (SELECT)
-	int selectById(String id);
+	// 두 개의 조건을 이용한 SELECT (정확히 식별할 때만 사용할 것이므로, 단일 객체를 반환
+	MemberDTO select(String firstColumn, String firstValue, String secondColumn, String secondValue);
 	
-	// 전화번호 중복 확인 기능 (SELECT)
-	int selectByPhoneNumber(String phoneNumber);
 	
 	// 정보 수정 기능 (UPDATE)
 	
