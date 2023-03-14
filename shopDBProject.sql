@@ -20,7 +20,6 @@ CREATE TABLE member (
     name VARCHAR(30) NOT NULL,  -- 이름
     phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
     address VARCHAR(100) NOT NULL,  -- 주소
-    birth_day DATE, -- 생일 (NULL 가능)
     FOREIGN KEY (member_grade) REFERENCES grade(name) 
 );
 
@@ -28,6 +27,8 @@ CREATE TABLE member (
 CREATE TABLE grade (
 	name VARCHAR(10) PRIMARY KEY
 );
+
+DELETE FROM member;
 
 -- 회원 등급은 미리 데이터 생성해둠
 INSERT INTO grade
