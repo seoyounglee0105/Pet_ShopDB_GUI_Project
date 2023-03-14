@@ -3,6 +3,9 @@ package project.frame;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +19,7 @@ import project.controller.MemberController;
 import project.dao.MemberDAO;
 import project.dto.MemberDTO;
 
-public class LoginFrame extends JFrame implements ActionListener {
+public class LoginFrame extends JFrame implements ActionListener{
 	
 	private MemberController memberController;
 
@@ -93,6 +96,24 @@ public class LoginFrame extends JFrame implements ActionListener {
 		signUpButton.addActionListener(this);
 		loginButton.addActionListener(this);
 		pwFindButton.addActionListener(this);
+		idTextField.addKeyListener(new KeyAdapter() {
+			// idTextField에서 엔터를 누르면 pwField로 포커스 이동
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					idTextField.transferFocus();					
+				}
+			}
+		});
+		pwField.addKeyListener(new KeyAdapter() {
+			// pwField에서 엔터를 누르면 loginButton 활성화
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					loginButton.doClick();					
+				}
+			}
+		});
 	}
 		
 	@Override
@@ -121,6 +142,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 			} else {
 				// 확인을 누르면 로그인 프레임 닫기 + 쇼핑몰 홈페이지 프레임
 				JOptionPane.showMessageDialog(null, id + "님, 환영합니다!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
+				new ShopFrame(loginMemberDTO);
 				this.dispose();
 			}			
 		}
@@ -128,5 +150,6 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new LoginFrame();
-	}	
+	}
+
 }

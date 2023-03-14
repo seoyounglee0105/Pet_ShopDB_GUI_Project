@@ -39,8 +39,9 @@ VALUES
     ('브론즈');
 
 -- 회원 가입
+
 INSERT INTO member(id, password, name, phone_number, address)
-VALUES (아이디, 비밀번호, 이름, 전화번호, 주소);
+VALUES ('ab', '1234', '홍길동', '010-1111-1111', '부산광역시');
 
 SELECT * FROM member;
 
