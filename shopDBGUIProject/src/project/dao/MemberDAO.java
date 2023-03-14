@@ -82,7 +82,7 @@ public class MemberDAO implements IMemberDAO {
 		return resultList;
 	} // end of select (조건 1개)
 
-	// 두 개의 조건을 이용한 SELECT
+	// 두 개의 조건을 이용한 SELECT (완전히 식별하는 목적이므로 단일 객체 반환)
 	@Override
 	public MemberDTO select(String firstColumn, String firstValue, String secondColumn, String secondValue) {
 		MemberDTO resultDto = null;

@@ -94,7 +94,11 @@ public class MemberService {
 		
 		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
 		resultMemberDTO = memberDAO.select(memberColumns[0], id, 
-																				   memberColumns[1], password);		
+																				   memberColumns[1], password);
+		
+		// 로그인 시에 password 정보를 반환하지 않도록 함 (민감한 정보)
+		resultMemberDTO.setPassword(null);
+		
 		return resultMemberDTO;
 	} // end of loginMember
 	
