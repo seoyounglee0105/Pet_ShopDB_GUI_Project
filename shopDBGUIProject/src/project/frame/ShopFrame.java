@@ -170,6 +170,4 @@ public class ShopFrame extends JFrame implements ActionListener {
 			mainPanel.setVisible(false);	
 		}
 	} // end of actionPerformed
-	
-	
 }

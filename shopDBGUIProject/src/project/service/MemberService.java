@@ -80,6 +80,7 @@ public class MemberService {
 
 		// 중복이라면 result == 1 (아니면 0)
 		result = memberDAO.select(memberColumns[4], phoneNumber).size();
+		System.out.println(result);
 		return result;
 	} // end of checkPhoneNumber
 	
@@ -93,8 +94,7 @@ public class MemberService {
 		}
 		
 		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
-		resultMemberDTO = memberDAO.select(memberColumns[0], id, 
-																				   memberColumns[1], password);
+		resultMemberDTO = memberDAO.select(memberColumns[0], id, memberColumns[1], password);
 		
 		// 로그인 시에 password 정보를 반환하지 않도록 함 (민감한 정보)
 		if (resultMemberDTO != null) {

@@ -32,7 +32,7 @@ public class MainPanel extends JPanel {
 	private void setInitLayout() {
 		setBackground(grayColor);
 		jLabel = null;
-		jLabel = new JLabel("xpxpxpxpx");
+		jLabel = new JLabel("mainPanel");
 		add(jLabel);
 		repaint();
 	}
