@@ -13,28 +13,23 @@ public class MainPanel extends JPanel {
 	
 	private ShopFrame mContext;
 	private JLabel jLabel;
-	private Color grayColor;
 	
 	public MainPanel(ShopFrame mContext) {
 		this.mContext = mContext;
 		initData();
 		setInitLayout();
-		System.out.println("Ddd");
-		repaint();
 	}
 	
 	private void initData() {
-		setSize(1000, 730);
-		grayColor = new Color(225, 225, 225);
+		setSize(799, 730);
 		
 	}
 	
 	private void setInitLayout() {
-		setBackground(grayColor);
+		setBackground(mContext.getPanelColor());
 		jLabel = null;
-		jLabel = new JLabel("xpxpxpxpx");
+		jLabel = new JLabel("메인패널");
 		add(jLabel);
-		repaint();
 	}
 
 }

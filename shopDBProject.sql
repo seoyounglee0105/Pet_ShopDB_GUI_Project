@@ -16,7 +16,7 @@ DROP TABLE grade;
 CREATE TABLE member (
     id VARCHAR(15) PRIMARY KEY,  -- 아이디
     password VARCHAR(20) NOT NULL,  -- 비밀번호
-    member_grade VARCHAR(10) NOT NULL DEFAULT '브론즈',  -- 회원 등급 (외래키)
+    member_grade VARCHAR(10) NOT NULL DEFAULT 'Bronze',  -- 회원 등급 (외래키)
     name VARCHAR(30) NOT NULL,  -- 이름
     phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
     address VARCHAR(100) NOT NULL,  -- 주소
@@ -29,19 +29,19 @@ CREATE TABLE grade (
 );
 
 DELETE FROM member;
+DELETE FROM grade;
 
 -- 회원 등급은 미리 데이터 생성해둠
 INSERT INTO grade
 VALUES
-	('플래티넘'),
-    ('골드'),
-    ('실버'),
-    ('브론즈');
+    ('Gold'),
+    ('Silver'),
+    ('Bronze');
 
 -- 회원 가입
 
 INSERT INTO member(id, password, name, phone_number, address)
-VALUES ('ab', '1234', '홍길동', '010-1111-1111', '부산광역시');
+VALUES ('abc', '1234', '홍길동', '010-1111-1111', '부산광역시');
 
 SELECT * FROM member;
 
