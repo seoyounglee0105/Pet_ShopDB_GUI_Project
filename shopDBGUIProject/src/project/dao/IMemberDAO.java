@@ -10,7 +10,7 @@ public interface IMemberDAO {
 	int insert(MemberDTO dto);
 	
 	// 한 개의 조건을 이용한 SELECT
-	ArrayList<MemberDTO> select(String column, String value) ;
+	ArrayList<MemberDTO> select(String column, String value);
 	
 	// 두 개의 조건을 이용한 SELECT (정확히 식별할 때만 사용할 것이므로, 단일 객체를 반환
 	MemberDTO select(String firstColumn, String firstValue, String secondColumn, String secondValue);

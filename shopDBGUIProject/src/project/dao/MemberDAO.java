@@ -49,13 +49,13 @@ public class MemberDAO implements IMemberDAO {
 	
 	// 하나의 조건을 이용한 SELECT
 	@Override
-	public ArrayList<MemberDTO> select(String columnName, String columnValue) {
+	public ArrayList<MemberDTO> select(String columnName, String value) {
 		ArrayList<MemberDTO> resultList = new ArrayList<>();
 		String sql = " SELECT * FROM member WHERE " + columnName + " = ? ";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, columnValue);
+			pstmt.setString(1, value);
 			rs = pstmt.executeQuery();
 
 		// 행이 존재한다면 while문으로 들어감

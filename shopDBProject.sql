@@ -21,6 +21,7 @@ CREATE TABLE member (
     phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
     address VARCHAR(100) NOT NULL,  -- 주소
     FOREIGN KEY (member_grade) REFERENCES grade(name) 
+    -- 적립금 추가할까
 );
 
 -- 회원 등급 테이블
@@ -47,14 +48,14 @@ SELECT * FROM member;
 -- 상품 테이블
 -- id, 상품이름, 상품종류(외래키), 가격, 메인사진(NOT NULL), 서브사진(NULL), 판매량(기본값 0), 등록일자
 CREATE TABLE product (
-	id int PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(15) NOT NULL UNIQUE,
-    price int NOT NULL,
-    category_id int NOT NULL, 
-    main_photo VARCHAR(50) NOT NULL,
-    sub_photo VARCHAR(50),
-    sales int DEFAULT 0,
-	insert_date DATE,
+	id int PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(15) NOT NULL UNIQUE, -- 상품명
+    price int NOT NULL, -- 가격
+    category_id int NOT NULL, -- 상품 분류 (외래키)
+    main_photo VARCHAR(50) NOT NULL, -- 사진1 (필수)
+    sub_photo VARCHAR(50), -- 사진2
+    sales int DEFAULT 0, -- 판매량 : 주문 기능 구현할 때 +수량 되도록
+	insert_date DATE, -- 등록일자 : CURDATE()로 자동 생성
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
@@ -70,18 +71,25 @@ CREATE TABLE category (
 -- 상품 종류 테이블은 미리 데이터 삽입
 INSERT INTO category (name)
 VALUES 
-	('의류'),
-    ('음식'),
-    ('실내'),
-    ('놀이'),
-	('미용'),
-    ('기타');
+	('Clothes'),
+    ('Food'),
+    ('Living'),
+    ('Toy'),
+    ('etc.');
 
 DESC product;
 -- 테스트 데이터
 INSERT INTO product (name, price, category_id, main_photo, insert_date)
 VALUES
-	('발바닥', 2000, 6, "images/paws.png", CURDATE());
+	('체크 스카프', 3000, 1, "images/1.jpg", CURDATE()),
+    ('스트라이프 폴라 티', 13000, 1, "images/2.jpg", CURDATE()),
+    ('치카 칫솔', 2000, 5, "images/3.jpg", CURDATE()),
+    ('산타 망토', 9000, 1, "images/4.jpg", CURDATE());
+
+INSERT INTO product (name, price, category_id, main_photo, insert_date)
+VALUES ('우유맛 껌', 1000, 2, "images/5.jpg", CURDATE());
+
+DELETE FROM product;
 
 -- 장바구니 테이블
 -- 사용자 id(외래키), 상품 id(외래키)

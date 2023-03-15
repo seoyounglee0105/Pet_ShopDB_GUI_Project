@@ -8,7 +8,7 @@ public class MemberService {
 	private MemberDAO memberDAO;
 	// 오타 방지를 위해 String 배열로 선언해서 사용
 	private String[] memberColumns = {"id", "password", "member_grade", 
-																"name", "phone_number", "address"};
+									  "name", "phone_number", "address"};
 	
 	public MemberService() {
 		memberDAO = new MemberDAO();
