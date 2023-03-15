@@ -3,6 +3,7 @@ package project.frame;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -138,6 +139,7 @@ public class LoginFrame extends JFrame implements ActionListener{
 			// null이면 로그인에 실패한 것
 			if (loginMemberDTO == null) {
 				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "로그인 실패", JOptionPane.PLAIN_MESSAGE);								
+				idTextField.grabFocus();
 			// 로그인 성공
 			} else {
 				// 확인을 누르면 로그인 프레임 닫기 + 쇼핑몰 홈페이지 프레임
