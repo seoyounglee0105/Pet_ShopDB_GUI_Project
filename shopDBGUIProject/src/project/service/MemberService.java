@@ -29,7 +29,7 @@ public class MemberService {
 			// 전화번호 형식에 맞지 않다면 실행 X (result == 3)
 			// '-'가 인덱스 3번, 8번에 나와야 하고, 총 길이가 13이어야 함
 		} else if (member.getPhoneNumber().indexOf("-") != 3 || member.getPhoneNumber().lastIndexOf("-") != 8
-				|| member.getPhoneNumber().length() != 13) {
+				|| member.getPhoneNumber().length() != 13 || member.getPhoneNumber().replaceAll("-", "").length() != 11) {
 			result = 3;
 			return result;
 
@@ -73,7 +73,7 @@ public class MemberService {
 		// 전화번호 형식에 맞지 않다면 실행 X (result == 2)
 		// '-'가 인덱스 3번, 8번에 나와야 하고, 총 길이가 13이어야 함
 		} else if (phoneNumber.indexOf("-") != 3 || phoneNumber.lastIndexOf("-") != 8
-				|| phoneNumber.length() != 13) {
+				|| phoneNumber.length() != 13 || phoneNumber.replaceAll("-", "").length() != 11) {
 			result = 2;
 			return result;
 		}

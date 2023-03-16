@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +24,6 @@ import project.panel.ProductListPanel;
 public class ShopFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext = this;
-	private MemberController memberController;
-	private ProductController productController;
 	private MemberDTO loginMemberDto; // 로그인된 회원의 DTO객체
 	
 	private JPanel topPanel; // 상단 패널
@@ -46,12 +45,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private CartPanel cartPanel;
 	private MyPagePanel myPagePanel;
 	
-	private JPanel centerLine; // 임시
-	
 	private Color mintColor;
-	private Color panelColor;
 	private Color grayColor;
-	
+	private Color pointColor;
 	
 	public ShopFrame(MemberDTO loginMember) {
 		this.loginMemberDto = loginMember;
@@ -63,9 +59,6 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private void initData() {
 		setTitle("홈페이지");
 		setSize(1000, 800);
-		
-		memberController = new MemberController();
-		productController = new ProductController();
 		
 		// 회원 등급 아이콘
 		ImageIcon gradeIcon = null;
@@ -101,22 +94,16 @@ public class ShopFrame extends JFrame implements ActionListener {
 		mainPanel = new MainPanel(mContext);
 		productListPanel = new ProductListPanel(mContext);
 		
-//		centerLine = new JPanel();
-		
 		mintColor = new Color(200, 235, 226);
-		panelColor = new Color(230, 230, 230);
 		grayColor = new Color(232, 239, 239);
+		pointColor = new Color(111, 188, 170);
+		
 	}
 
 	private void setInitLayout() {
 		setLayout(null);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		
-//		centerLine.setSize(1, 800);
-//		centerLine.setLocation(599, 70);
-//		centerLine.setBackground(Color.black);
-//		add(centerLine);
 		
 		topPanel.setLocation(0, 0);
 		topPanel.setSize(1000, 61);
@@ -188,9 +175,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 		categoryLabel.setLocation(13, 30);
 		categoryLabel.setSize(175, 650);
 		categoryPanel.add(categoryLabel);
-		
+	
 		mainPanel.setLocation(201, 70);
 		add(mainPanel);
+		mainPanel.setState(true);
 		
 		productListPanel.setLocation(201, 70);
 		add(productListPanel);
@@ -223,8 +211,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 			}
 		// 홈 버튼
 		} else if (targetButton == homeButton) {
+			selectedCategory(-1);
 			productListPanel.setVisible(false);
 			mainPanel.setVisible(true);
+			visiblePanel(0);
 		// 종료 버튼
 		} else if (targetButton == exitButton) {
 			// 종료하면 프로그램이 완전히 종료됨
@@ -234,51 +224,84 @@ public class ShopFrame extends JFrame implements ActionListener {
 			}
 		// 카테고리 - 전체 버튼
 		} else if (targetButton == categoryButtons[0]) {
+			selectedCategory(0);
 			mainPanel.setVisible(false);	
 			productListPanel.showAll();
 			productListPanel.setVisible(true);
+			visiblePanel(1);
 		// 카테고리 - 의류 버튼
 		} else if (targetButton == categoryButtons[1]) {
+			selectedCategory(1);
 			mainPanel.setVisible(false);
 			productListPanel.showClothes();
 			productListPanel.setVisible(true);
-			
+			visiblePanel(1);
 		// 카테고리 - 음식 버튼
 		} else if (targetButton == categoryButtons[2]) {
+			selectedCategory(2);
 			mainPanel.setVisible(false);	
 			productListPanel.showFood();
 			productListPanel.setVisible(true);
-			
+			visiblePanel(1);
 		// 카테고리 - 가구 버튼
 		} else if (targetButton == categoryButtons[3]) {
+			selectedCategory(3);
 			mainPanel.setVisible(false);	
 			productListPanel.showLiving();
 			productListPanel.setVisible(true);
-			
+			visiblePanel(1);
 		// 카테고리 - 장난감 버튼
 		} else if (targetButton == categoryButtons[4]) {
+			selectedCategory(4);
 			mainPanel.setVisible(false);
 			productListPanel.showToy();
 			productListPanel.setVisible(true);
-			
+			visiblePanel(1);
 		// 카테고리 - 기타 버튼
 		} else if (targetButton == categoryButtons[5]) {
+			selectedCategory(5);
 			mainPanel.setVisible(false);	
 			productListPanel.showEtc();
 			productListPanel.setVisible(true);
-			
+			visiblePanel(1);
 		// 장바구니 버튼
 		} else if (targetButton == cartButton) {
+			selectedCategory(-1);
 			productListPanel.setVisible(false);
 			mainPanel.setVisible(false);	
 			
 		// 마이페이지 버튼
 		} else if (targetButton == myPageButton) {
+			selectedCategory(-1);
 			productListPanel.setVisible(false);
 			mainPanel.setVisible(false);	
 		}
 	} // end of actionPerformed
 	
 	
+	public void selectedCategory(int index) {
+		for (int i = 0; i < categoryButtons.length; i++) {
+			// 나머지 카테고리는 검정색 글자로
+			categoryButtons[i].setForeground(Color.black);
 
+			// 해당 카테고리가 선택되었다면 포인트 색을 부여함
+			if (i == index) {
+				categoryButtons[i].setForeground(pointColor);
+			}
+		}
+	}
+	
+	public void visiblePanel(int index) {
+		mainPanel.setState(false);
+		productListPanel.setState(false);
+		
+		if (index == 0) {
+			mainPanel.setState(true);
+		} else if (index == 1) {
+			productListPanel.setState(true);
+		}
+	
+	}
+	
+	
 }

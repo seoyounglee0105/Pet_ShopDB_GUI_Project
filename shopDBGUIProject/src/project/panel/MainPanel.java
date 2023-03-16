@@ -14,6 +14,7 @@ public class MainPanel extends JPanel {
 	private ShopFrame mContext;
 	private JLabel jLabel;
 	private Color panelColor;
+	private boolean state;
 	
 	public MainPanel(ShopFrame mContext) {
 		this.mContext = mContext;
@@ -31,5 +32,15 @@ public class MainPanel extends JPanel {
 		jLabel = new JLabel("메인패널");
 		add(jLabel);
 	}
+
+	public boolean isState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+	
+	
 
 }

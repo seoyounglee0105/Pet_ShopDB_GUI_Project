@@ -22,11 +22,29 @@ public class ProductService {
 		return resultList;
 	}
 	
+	// 전체 조회 & 정렬
+	public ArrayList<ProductDTO> selectAllOrderBy(int orderIndex){
+		ArrayList<ProductDTO> resultList = null;
+		
+		resultList = productDAO.selectOrdeyBy(orderIndex);
+		
+		return resultList;
+	}
+	
 	// 카테고리별 조회
 	public ArrayList<ProductDTO> selectByCategory(int categoryId){
 		ArrayList<ProductDTO> resultList = null;
 		
 		resultList = productDAO.select("category_id", categoryId);
+		
+		return resultList;
+	}
+	
+	// 카테고리별 조회 & 정렬
+	public ArrayList<ProductDTO> selectByCategoryOrderBy(int orderIndex, int categoryId){
+		ArrayList<ProductDTO> resultList = null;
+		
+		resultList = productDAO.selectOrdeyBy(orderIndex, "category_id", categoryId);			
 		
 		return resultList;
 	}

@@ -92,6 +92,93 @@ public class ProductDAO implements IProductDAO {
 		return resultList;
 	} // end of select (조건 1개)
 
+	@Override
+	public ArrayList<ProductDTO> selectOrdeyBy(int orderIndex) {
+		ArrayList<ProductDTO> resultList = new ArrayList<>();
+		String sql = null;
+		
+		if (orderIndex == 0) {
+			sql = " SELECT * FROM product ORDER BY name ";
+		} else if (orderIndex == 1) {
+			sql = " SELECT * FROM product ORDER BY insert_date DESC ";			
+		} else {
+			sql = " SELECT * FROM product ORDER BY sales DESC ";						
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+		// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				ProductDTO dto = new ProductDTO();
+				dto.setId(rs.getInt("id"));
+				dto.setName(rs.getString("name"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setCategoryId(rs.getInt("category_id"));
+				dto.setMainPhoto(rs.getString("main_photo"));
+				dto.setSubPhoto(rs.getString("sub_photo"));
+				dto.setSales(rs.getInt("sales"));
+				dto.setInsertDate(rs.getString("insert_date"));
+				resultList.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultList;
+	}
+
+	@Override
+	public ArrayList<ProductDTO> selectOrdeyBy(int orderIndex, String columnName, int value) {
+		ArrayList<ProductDTO> resultList = new ArrayList<>();
+		String sql = null;
+		
+		if (orderIndex == 0) {
+			sql = " SELECT * FROM product WHERE " + columnName + " = ? ORDER BY name ";
+		} else if (orderIndex == 1) {
+			sql = " SELECT * FROM product WHERE " + columnName + " = ? ORDER BY insert_date DESC ";			
+		} else {
+			sql = " SELECT * FROM product WHERE " + columnName + " = ? ORDER BY sales DESC ";						
+		}
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, value);
+			rs = pstmt.executeQuery();
+
+		// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				ProductDTO dto = new ProductDTO();
+				dto.setId(rs.getInt("id"));
+				dto.setName(rs.getString("name"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setCategoryId(rs.getInt("category_id"));
+				dto.setMainPhoto(rs.getString("main_photo"));
+				dto.setSubPhoto(rs.getString("sub_photo"));
+				dto.setSales(rs.getInt("sales"));
+				dto.setInsertDate(rs.getString("insert_date"));
+				resultList.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultList;
+	}
+
 
 
 }
