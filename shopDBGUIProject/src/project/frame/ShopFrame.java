@@ -2,12 +2,8 @@ package project.frame;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,6 +46,8 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private CartPanel cartPanel;
 	private MyPagePanel myPagePanel;
 	
+	private JPanel centerLine; // 임시
+	
 	private Color mintColor;
 	private Color panelColor;
 	private Color grayColor;
@@ -86,7 +84,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		idLabel = new JLabel(loginMemberDto.getName() + " 님");
 		
 		logoutButton = new JButton("로그아웃");
-		homeButton = new JButton("쇼핑몰이름");
+		homeButton = new JButton("Pet Shopping Mall");
 		myPageButton = new JButton(new ImageIcon("images/home.png"));
 		cartButton = new JButton(new ImageIcon("images/bag.png"));
 		borderPanel = new JPanel();
@@ -103,6 +101,8 @@ public class ShopFrame extends JFrame implements ActionListener {
 		mainPanel = new MainPanel(mContext);
 		productListPanel = new ProductListPanel(mContext);
 		
+//		centerLine = new JPanel();
+		
 		mintColor = new Color(200, 235, 226);
 		panelColor = new Color(230, 230, 230);
 		grayColor = new Color(232, 239, 239);
@@ -112,6 +112,11 @@ public class ShopFrame extends JFrame implements ActionListener {
 		setLayout(null);
 		setResizable(false);
 		setLocationRelativeTo(null);
+		
+//		centerLine.setSize(1, 800);
+//		centerLine.setLocation(599, 70);
+//		centerLine.setBackground(Color.black);
+//		add(centerLine);
 		
 		topPanel.setLocation(0, 0);
 		topPanel.setSize(1000, 61);
@@ -190,7 +195,6 @@ public class ShopFrame extends JFrame implements ActionListener {
 		productListPanel.setLocation(201, 70);
 		add(productListPanel);
 
-		
 		setVisible(true);
 	}
 	
@@ -231,36 +235,36 @@ public class ShopFrame extends JFrame implements ActionListener {
 		// 카테고리 - 전체 버튼
 		} else if (targetButton == categoryButtons[0]) {
 			mainPanel.setVisible(false);	
-			productListPanel.ShowAll();
+			productListPanel.showAll();
 			productListPanel.setVisible(true);
 		// 카테고리 - 의류 버튼
 		} else if (targetButton == categoryButtons[1]) {
 			mainPanel.setVisible(false);
-			productListPanel.ShowClothes();
+			productListPanel.showClothes();
 			productListPanel.setVisible(true);
 			
 		// 카테고리 - 음식 버튼
 		} else if (targetButton == categoryButtons[2]) {
 			mainPanel.setVisible(false);	
-			productListPanel.ShowFood();
+			productListPanel.showFood();
 			productListPanel.setVisible(true);
 			
 		// 카테고리 - 가구 버튼
 		} else if (targetButton == categoryButtons[3]) {
 			mainPanel.setVisible(false);	
-			productListPanel.ShowLiving();
+			productListPanel.showLiving();
 			productListPanel.setVisible(true);
 			
 		// 카테고리 - 장난감 버튼
 		} else if (targetButton == categoryButtons[4]) {
 			mainPanel.setVisible(false);
-			productListPanel.ShowToy();
+			productListPanel.showToy();
 			productListPanel.setVisible(true);
 			
 		// 카테고리 - 기타 버튼
 		} else if (targetButton == categoryButtons[5]) {
 			mainPanel.setVisible(false);	
-			productListPanel.ShowEtc();
+			productListPanel.showEtc();
 			productListPanel.setVisible(true);
 			
 		// 장바구니 버튼
@@ -275,9 +279,6 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	} // end of actionPerformed
 	
-	public Color getPanelColor() {
-		return panelColor;
-	}
 	
 
 }
