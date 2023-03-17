@@ -14,6 +14,9 @@ public interface IProductDAO {
 
 	// 한 개의 조건을 이용한 SELECT
 	ArrayList<ProductDTO> select(String columnName, int value);
+
+	// 한 개의 고유 값 조건을 이용한 SELECT
+	ProductDTO select(String UniqueColumnName, String value);
 	
 	// 한 개의 조건을 이용한 SELECT & ORDER BY 포함
 	ArrayList<ProductDTO> selectOrdeyBy(int orderIndex, String columnName, int value);

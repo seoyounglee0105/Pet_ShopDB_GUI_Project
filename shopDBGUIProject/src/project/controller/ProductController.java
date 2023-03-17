@@ -15,33 +15,41 @@ public class ProductController {
 	
 	// 전체 조회 요청
 	public ArrayList<ProductDTO> requestSelectAll() {
-		ArrayList<ProductDTO> responseDto = null;
+		ArrayList<ProductDTO> responseList = null;
 		
-		responseDto = productService.selectAll();
-		return responseDto;
+		responseList = productService.selectAll();
+		return responseList;
 	}
 	
 	// 전체 조회 & 정렬 요청
 	public ArrayList<ProductDTO> requestSelectAllOrderBy(int orderIndex) {
-		ArrayList<ProductDTO> responseDto = null;
+		ArrayList<ProductDTO> responseList = null;
 		
-		responseDto = productService.selectAllOrderBy(orderIndex);
-		return responseDto;
+		responseList = productService.selectAllOrderBy(orderIndex);
+		return responseList;
 	}
 	
 	// 카테고리별 조회 요청
 	public ArrayList<ProductDTO> requestSelectCategory(int categoryId) {
-		ArrayList<ProductDTO> responseDto = null;
+		ArrayList<ProductDTO> responseList = null;
 		
-		responseDto = productService.selectByCategory(categoryId);
-		return responseDto;
+		responseList = productService.selectByCategory(categoryId);
+		return responseList;
 	}
 	
 	// 카테고리별 조회 & 정렬 요청
 	public ArrayList<ProductDTO> requestSelectCategoryOrderBy(int orderIndex, int categoryId) {
-		ArrayList<ProductDTO> responseDto = null;
+		ArrayList<ProductDTO> responseList = null;
 		
-		responseDto = productService.selectByCategoryOrderBy(orderIndex, categoryId);
+		responseList = productService.selectByCategoryOrderBy(orderIndex, categoryId);
+		return responseList;
+	}
+	
+	// MainPhoto 경로에 해당하는 Dto 조회 요청
+	public ProductDTO requestSelectMainPhoto(String mainPhoto) {
+		ProductDTO responseDto = null;
+		
+		responseDto = productService.selectByMainPhoto(mainPhoto);
 		return responseDto;
 	}
 }

@@ -1,4 +1,4 @@
-package project.frame;
+package project.viewFrame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -221,7 +221,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 		} else if (targetButton == signUpButton) {
 			// id, 전화번호를 입력하지 않아 힌트가 그대로 남아 있으면 실행 X
 			if (idHintOff == false || phoneHintOff == false) {
-				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);
 				return;				
 			}
 			
@@ -243,18 +243,18 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 				
 			// 회원가입 실패(2) - 입력되지 않은 값이 있음
 			} else if (result == 2) {
-				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "모든 값을 입력해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);
 				
 			// 회원가입 실패(3) - phoneNumber 형식이 올바르지 않음
 			} else if (result == 3) {
-				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);				
+				JOptionPane.showMessageDialog(null, "전화번호는 010-####-####의 형식으로 입력해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);				
 				
 			// 회원가입 실패(4) - id 또는 phoneNumber가 중복됨
 			} else if (result == 4) {
-				JOptionPane.showMessageDialog(null, "id 또는 전화번호가 이미 사용 중입니다.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);								
+				JOptionPane.showMessageDialog(null, "id 또는 전화번호가 이미 사용 중입니다.", "실패", JOptionPane.PLAIN_MESSAGE);								
 				
 			} else {
-				JOptionPane.showMessageDialog(null, "중복되거나 입력되지 않은 값이 있는지 확인해주세요.", "회원 가입 실패", JOptionPane.PLAIN_MESSAGE);								
+				JOptionPane.showMessageDialog(null, "중복되거나 입력되지 않은 값이 있는지 확인해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);								
 			}
 			
 		} // end of signUpButton

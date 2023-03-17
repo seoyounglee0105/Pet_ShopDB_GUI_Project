@@ -1,4 +1,4 @@
-package project.frame;
+package project.viewFrame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -105,7 +105,7 @@ public class PwFindFrame extends JFrame implements ActionListener, MouseListener
 				JOptionPane.showMessageDialog(null, id + "님의 비밀번호는 " + resultPw + "입니다.", "비밀번호 찾기 성공", JOptionPane.PLAIN_MESSAGE);	
 				this.dispose(); // 확인 누르면 프레임 꺼짐
 			} else {
-				JOptionPane.showMessageDialog(null, "정보를 잘못 입력하셨습니다.", "비밀번호 찾기 실패", JOptionPane.PLAIN_MESSAGE);					
+				JOptionPane.showMessageDialog(null, "정보를 잘못 입력하셨습니다.", "실패", JOptionPane.PLAIN_MESSAGE);					
 			}
 		}
 	}

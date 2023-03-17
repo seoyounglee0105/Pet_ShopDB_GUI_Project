@@ -18,7 +18,6 @@ public class ProductService {
 		ArrayList<ProductDTO> resultList = null;
 	
 		resultList = productDAO.select();
-		
 		return resultList;
 	}
 	
@@ -27,7 +26,6 @@ public class ProductService {
 		ArrayList<ProductDTO> resultList = null;
 		
 		resultList = productDAO.selectOrdeyBy(orderIndex);
-		
 		return resultList;
 	}
 	
@@ -36,7 +34,6 @@ public class ProductService {
 		ArrayList<ProductDTO> resultList = null;
 		
 		resultList = productDAO.select("category_id", categoryId);
-		
 		return resultList;
 	}
 	
@@ -45,8 +42,15 @@ public class ProductService {
 		ArrayList<ProductDTO> resultList = null;
 		
 		resultList = productDAO.selectOrdeyBy(orderIndex, "category_id", categoryId);			
-		
 		return resultList;
+	}
+	
+	// MainPhoto 경로에 해당하는 Dto 조회
+	public ProductDTO selectByMainPhoto(String mainPhoto) {
+		ProductDTO resultDto = null;
+		
+		resultDto = productDAO.select("main_photo", mainPhoto);
+		return resultDto;
 	}
 	
 	

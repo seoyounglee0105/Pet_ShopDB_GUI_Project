@@ -1,4 +1,4 @@
-package project.frame;
+package project.viewFrame;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -93,6 +93,8 @@ public class ShopFrame extends JFrame implements ActionListener {
 		
 		mainPanel = new MainPanel(mContext);
 		productListPanel = new ProductListPanel(mContext);
+		cartPanel = new CartPanel(mContext);
+		myPagePanel = new MyPagePanel(mContext);
 		
 		mintColor = new Color(200, 235, 226);
 		grayColor = new Color(232, 239, 239);
@@ -120,15 +122,15 @@ public class ShopFrame extends JFrame implements ActionListener {
 		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		topPanel.add(idLabel);
 		
-		logoutButton.setSize(85, 25);
-		logoutButton.setLocation(130, 19);
+		logoutButton.setSize(60, 25);
+		logoutButton.setLocation(137, 19);
 		logoutButton.setBorder(null);
 		logoutButton.setBackground(mintColor);
 		logoutButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		topPanel.add(logoutButton);
 		
-		homeButton.setSize(600, 54);
-		homeButton.setLocation(200, 4);
+		homeButton.setSize(600, 45);
+		homeButton.setLocation(200, 8);
 		homeButton.setBorder(null);
 		homeButton.setBackground(mintColor);
 		homeButton.setFont(new Font("맑은 고딕", Font.BOLD, 30));
@@ -171,6 +173,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		exitButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		exitButton.setBorder(null);
 		exitButton.setBackground(Color.white);
+		
 		categoryPanel.add(exitButton);
 		categoryLabel.setLocation(13, 30);
 		categoryLabel.setSize(175, 650);
@@ -178,10 +181,18 @@ public class ShopFrame extends JFrame implements ActionListener {
 	
 		mainPanel.setLocation(201, 70);
 		add(mainPanel);
-		mainPanel.setState(true);
 		
 		productListPanel.setLocation(201, 70);
+		productListPanel.setVisible(false);
 		add(productListPanel);
+		
+		cartPanel.setLocation(201, 70);
+		cartPanel.setVisible(false);
+		add(cartPanel);
+		
+		myPagePanel.setLocation(201, 70);
+		myPagePanel.setVisible(false);
+		add(myPagePanel);
 
 		setVisible(true);
 	}
@@ -209,12 +220,12 @@ public class ShopFrame extends JFrame implements ActionListener {
 				this.dispose();
 				new LoginFrame();
 			}
+			
 		// 홈 버튼
 		} else if (targetButton == homeButton) {
 			selectedCategory(-1);
-			productListPanel.setVisible(false);
-			mainPanel.setVisible(true);
 			visiblePanel(0);
+			
 		// 종료 버튼
 		} else if (targetButton == exitButton) {
 			// 종료하면 프로그램이 완전히 종료됨
@@ -222,59 +233,53 @@ public class ShopFrame extends JFrame implements ActionListener {
 			if (a == JOptionPane.YES_OPTION) {
 				System.exit(0);
 			}
+			
 		// 카테고리 - 전체 버튼
 		} else if (targetButton == categoryButtons[0]) {
 			selectedCategory(0);
-			mainPanel.setVisible(false);	
 			productListPanel.showAll();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 카테고리 - 의류 버튼
 		} else if (targetButton == categoryButtons[1]) {
 			selectedCategory(1);
-			mainPanel.setVisible(false);
 			productListPanel.showClothes();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 카테고리 - 음식 버튼
 		} else if (targetButton == categoryButtons[2]) {
 			selectedCategory(2);
-			mainPanel.setVisible(false);	
 			productListPanel.showFood();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 카테고리 - 가구 버튼
 		} else if (targetButton == categoryButtons[3]) {
 			selectedCategory(3);
-			mainPanel.setVisible(false);	
 			productListPanel.showLiving();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 카테고리 - 장난감 버튼
 		} else if (targetButton == categoryButtons[4]) {
 			selectedCategory(4);
-			mainPanel.setVisible(false);
 			productListPanel.showToy();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 카테고리 - 기타 버튼
 		} else if (targetButton == categoryButtons[5]) {
 			selectedCategory(5);
-			mainPanel.setVisible(false);	
 			productListPanel.showEtc();
-			productListPanel.setVisible(true);
 			visiblePanel(1);
+			
 		// 장바구니 버튼
 		} else if (targetButton == cartButton) {
 			selectedCategory(-1);
-			productListPanel.setVisible(false);
-			mainPanel.setVisible(false);	
+			cartPanel.viewCart();
+			visiblePanel(2);
 			
 		// 마이페이지 버튼
 		} else if (targetButton == myPageButton) {
 			selectedCategory(-1);
-			productListPanel.setVisible(false);
-			mainPanel.setVisible(false);	
+			visiblePanel(3);
 		}
 	} // end of actionPerformed
 	
@@ -290,18 +295,26 @@ public class ShopFrame extends JFrame implements ActionListener {
 			}
 		}
 	}
-	
+
+	// main : 0 / productList : 1 / cart : 2 / myPage : 3
 	public void visiblePanel(int index) {
-		mainPanel.setState(false);
-		productListPanel.setState(false);
-		
-		if (index == 0) {
-			mainPanel.setState(true);
-		} else if (index == 1) {
-			productListPanel.setState(true);
+		JPanel[] panelList = {mainPanel, productListPanel, cartPanel, myPagePanel};
+		for (int i = 0; i < panelList.length; i++) {
+			panelList[i].setVisible(false);
+			if (i == index) {
+				panelList[i].setVisible(true);
+			}
 		}
-	
+	}
+
+	public MemberDTO getLoginMemberDto() {
+		return loginMemberDto;
+	}
+
+	public CartPanel getCartPanel() {
+		return cartPanel;
 	}
 	
 	
+		
 }

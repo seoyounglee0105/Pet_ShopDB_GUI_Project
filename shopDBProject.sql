@@ -51,12 +51,13 @@ CREATE TABLE product (
     name VARCHAR(50) NOT NULL UNIQUE, -- 상품명
     price int NOT NULL, -- 가격
     category_id int NOT NULL, -- 상품 분류 (외래키)
-    main_photo VARCHAR(50) NOT NULL, -- 사진1 (필수)
+    main_photo VARCHAR(50) NOT NULL UNIQUE, -- 사진1 (필수)
     sub_photo VARCHAR(50), -- 사진2
     sales int DEFAULT 0, -- 판매량 : 주문 기능 구현할 때 +수량 되도록
 	insert_date DATE, -- 등록일자 : CURDATE()로 자동 생성
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
+
 
 DROP TABLE product;
 DROP TABLE category;
@@ -143,17 +144,27 @@ VALUES
     ('뱃살 한바가지 방석', 20000, 3, "images/56.jpg", "2023-02-18"),
     ('터그놀이 장난감', 3000, 4, "images/57.jpg", "2023-02-18");
     
+-- 장바구니 테이블
+CREATE TABLE cart (
+	member_id VARCHAR(15) NOT NULL, -- 회원 아이디 (외래키)
+	product_id INT NOT NULL, -- 상품 아이디 (외래키)
+    amount INT NOT NULL DEFAULT 1, -- 수량
+    PRIMARY KEY (member_id, product_id),
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
     
-    
-    
-    
-    
-    
+SELECT name, amount, (1 * price) AS 'totalPrice' 
+FROM cart AS c
+LEFT JOIN product AS p
+ON c.product_id = p.id
+WHERE c.id = '이서영';
+
     
 
 SELECT * FROM product;
 SELECT * FROM member;
-    
+
     
     
     

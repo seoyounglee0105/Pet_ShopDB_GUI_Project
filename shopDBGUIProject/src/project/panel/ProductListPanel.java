@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,9 +17,9 @@ import javax.xml.stream.events.EndDocument;
 
 import project.controller.ProductController;
 import project.dto.ProductDTO;
-import project.frame.LoginFrame;
-import project.frame.ProductInfoFrame;
-import project.frame.ShopFrame;
+import project.viewFrame.LoginFrame;
+import project.viewFrame.ProductInfoFrame;
+import project.viewFrame.ShopFrame;
 
 public class ProductListPanel extends JPanel implements ActionListener {
 
@@ -34,7 +35,6 @@ public class ProductListPanel extends JPanel implements ActionListener {
 	private JLabel currentPageLabel;
 	private Color panelColor;
 	private Color pointColor;
-	private boolean state;
 	
 	// 정렬 버튼
 	private JButton[] orderByButtons = new JButton[3];
@@ -156,7 +156,32 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < orderByButtons.length; i++) {
 			orderByButtons[i].addActionListener(this);
 		}
-		
+		// 상품 사진에 마우스리스너
+		for (int i = 0; i < productInfoList.size(); i++) {
+			productInfoList.get(i)[0].addMouseListener(new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					JLabel targetJLabel = (JLabel) e.getSource();
+					
+					String targetDtoPhoto = targetJLabel.getIcon().toString();
+					ProductDTO targetDTO = productController.requestSelectMainPhoto(targetDtoPhoto);
+					new ProductInfoFrame(targetDTO, mContext.getLoginMemberDto(), mContext);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+
+				}
+			});
+		}
 	}
 		
 	// 처음 조회 기능을 사용했을 때 페이지 1번 화면 출력
@@ -215,7 +240,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 				for (int j = i - ((curPage - 1) * 6); j <= i - ((curPage - 1) * 6); j++) {
 					productInfoList.get(j)[0].setIcon(new ImageIcon(targetDtoList.get(i).getMainPhoto()));
 					productInfoList.get(j)[1].setText(targetDtoList.get(i).getName());
-					productInfoList.get(j)[2].setText(targetDtoList.get(i).getPrice() + "원");					
+					productInfoList.get(j)[2].setText(targetDtoList.get(i).getPrice() + "원");		
 				}
 			}
 		}
@@ -465,14 +490,5 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		currentPageLabel.setText(curPage + "");
 		currentPageLabel.setLocation(393, 650);
 	}
-
-	public boolean isState() {
-		return state;
-	}
-
-	public void setState(boolean state) {
-		this.state = state;
-	}
-	
 	
 }

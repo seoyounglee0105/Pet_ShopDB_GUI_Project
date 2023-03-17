@@ -1,4 +1,4 @@
-package project.frame;
+package project.viewFrame;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -138,7 +138,7 @@ public class LoginFrame extends JFrame implements ActionListener{
 			
 			// null이면 로그인에 실패한 것
 			if (loginMemberDTO == null) {
-				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "로그인 실패", JOptionPane.PLAIN_MESSAGE);								
+				JOptionPane.showMessageDialog(null, "아이디나 비밀번호를 확인해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);								
 				idTextField.grabFocus();
 			// 로그인 성공
 			} else {

@@ -91,6 +91,41 @@ public class ProductDAO implements IProductDAO {
 		}
 		return resultList;
 	} // end of select (조건 1개)
+	
+	@Override
+	public ProductDTO select(String columnName, String value) {
+		ProductDTO resultDto = null;
+		String sql = " SELECT * FROM product WHERE " + columnName + " = ? ";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, value);
+			rs = pstmt.executeQuery();
+
+		// 행이 존재한다면 while문으로 들어감
+			while (rs.next()) {
+				resultDto = new ProductDTO();
+				resultDto.setId(rs.getInt("id"));
+				resultDto.setName(rs.getString("name"));
+				resultDto.setPrice(rs.getInt("price"));
+				resultDto.setCategoryId(rs.getInt("category_id"));
+				resultDto.setMainPhoto(rs.getString("main_photo"));
+				resultDto.setSubPhoto(rs.getString("sub_photo"));
+				resultDto.setSales(rs.getInt("sales"));
+				resultDto.setInsertDate(rs.getString("insert_date"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultDto;
+	}
 
 	@Override
 	public ArrayList<ProductDTO> selectOrdeyBy(int orderIndex) {
@@ -178,6 +213,8 @@ public class ProductDAO implements IProductDAO {
 		}
 		return resultList;
 	}
+
+
 
 
 
