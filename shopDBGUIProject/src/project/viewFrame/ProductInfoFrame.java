@@ -39,7 +39,6 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 	private JTextField amountField;
 	private JButton addCartButton;
 	
-	private Color mintColor;
 	private Color grayColor;
 
 	public ProductInfoFrame(ProductDTO targetDto, MemberDTO loginMember, ShopFrame mContext) {
@@ -56,7 +55,6 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 	private void initData() {
 		setTitle("'" + currentProduct.getName() + "' 상세 페이지");
 		setSize(400, 600);
-		mintColor = new Color(200, 235, 226);
 		grayColor = new Color(232, 239, 239);
 		topPanel = new JPanel();
 		namePanel = new JPanel();

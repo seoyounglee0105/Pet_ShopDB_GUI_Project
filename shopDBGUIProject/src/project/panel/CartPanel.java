@@ -29,7 +29,6 @@ public class CartPanel extends JPanel implements ActionListener {
 	private JButton[] deleteButtons = new JButton[10];
 	private JLabel totalPriceLabel;
 	private JButton orderButton;
-	private ProductController productController;
 
 	public CartPanel(ShopFrame mContext) {
 		this.mContext = mContext;
@@ -41,7 +40,6 @@ public class CartPanel extends JPanel implements ActionListener {
 	private void initData() {
 		setSize(799, 730);
 		cartController = new CartController();
-		productController = new ProductController();
 		panelColor = new Color(230, 230, 230);
 		nameLabel = new JLabel("장바구니");
 
@@ -143,9 +141,9 @@ public class CartPanel extends JPanel implements ActionListener {
 		cartInfoNull();
 		if (currentCart.size() == 0) {
 			System.out.println("장바구니에 담긴 상품이 없습니다.");
+			totalPriceLabel.setText("총 주문 금액 : " + 0 + "원");			
 			return;
 		}
-
 		int priceSum = 0;
 		
 		// 장바구니 항목 개수만큼 반복
@@ -156,6 +154,7 @@ public class CartPanel extends JPanel implements ActionListener {
 			deleteButtons[i].setVisible(true);
 			priceSum += currentCart.get(i).getTotalPrice();
 		}
+		
 		totalPriceLabel.setText("총 주문 금액 : " + priceSum + "원");
 	}
 

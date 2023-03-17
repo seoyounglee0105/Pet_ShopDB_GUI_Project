@@ -25,9 +25,7 @@ import project.dto.MemberDTO;
 public class SignUpFrame extends JFrame implements ActionListener, MouseListener {
 
 	private MemberController memberController;
-	
 	private JPanel parentPanel1;
-
 	private JPanel panel1;
 	private JLabel idLabel; // 아이디
 	private JTextField idTextField; // 아이디 입력창
@@ -51,7 +49,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 	private JTextField addrTextField; // 주소 입력창
 
 	private JPanel parentPanel2;
-
 	private JPanel panel6;
 	private JButton signUpButton; // 회원 가입 버튼
 

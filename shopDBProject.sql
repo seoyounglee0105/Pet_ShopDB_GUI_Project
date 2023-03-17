@@ -154,18 +154,24 @@ CREATE TABLE cart (
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
     
-SELECT name, amount, (1 * price) AS 'totalPrice' 
+SELECT name, amount, (amount * price) as 'totalPrice'
 FROM cart AS c
 LEFT JOIN product AS p
 ON c.product_id = p.id
-WHERE c.id = '이서영';
+WHERE c.member_id = 'os01031';
 
     
 
 SELECT * FROM product;
 SELECT * FROM member;
 
-    
+
+CREATE TABLE `order` (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id VARCHAR(15) NOT NULL, -- 이걸로 장바구니랑 연결
+    product_id INT NOT NULL,
+    amount INT NOT NULL DEFAULT 1
+);
     
     
     

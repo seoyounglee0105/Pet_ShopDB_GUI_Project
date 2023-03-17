@@ -1,18 +1,17 @@
 package project.panel;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import project.controller.MemberController;
-import project.dto.MemberDTO;
 import project.viewFrame.ShopFrame;
 
 public class MainPanel extends JPanel {
 
 	private ShopFrame mContext;
-	private JLabel jLabel;
+	private JLabel nameLabel;
 	private Color panelColor;
 
 	public MainPanel(ShopFrame mContext) {
@@ -24,12 +23,16 @@ public class MainPanel extends JPanel {
 	private void initData() {
 		setSize(799, 730);
 		panelColor = new Color(230, 230, 230);
+		nameLabel = new JLabel("메인");
 	}
 
 	private void setInitLayout() {
 		setBackground(panelColor);
-		jLabel = new JLabel("메인 패널");
-		add(jLabel);
+		setLayout(null);
+		nameLabel.setSize(80, 20);
+		nameLabel.setLocation(30, 20);
+		nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		add(nameLabel);
 	}
 
 }
