@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import project.controller.CartController;
 import project.controller.ProductController;
 import project.dto.CartDTO;
+import project.viewFrame.OrderFrame;
 import project.viewFrame.ShopFrame;
 
 public class CartPanel extends JPanel implements ActionListener {
@@ -22,7 +23,7 @@ public class CartPanel extends JPanel implements ActionListener {
 	private JLabel nameLabel;
 	private Color panelColor;
 	private CartController cartController;
-	private ArrayList<CartDTO> currentCart;
+	private ArrayList<CartDTO> currentCarts;
 	private JLabel[] labelArray = new JLabel[3];
 	private JPanel borderPanel;
 	private ArrayList<JLabel[]> productList;
@@ -124,6 +125,7 @@ public class CartPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < deleteButtons.length; i++) {
 			deleteButtons[i].addActionListener(this);
 		}
+		orderButton.addActionListener(this);
 	}
 	
 	// 장바구니 정보 초기화
@@ -137,9 +139,9 @@ public class CartPanel extends JPanel implements ActionListener {
 	}
 
 	public void viewCart() {
-		currentCart = cartController.requestViewCart(mContext.getLoginMemberDto());
+		currentCarts = cartController.requestViewCart(mContext.getLoginMemberDto());
 		cartInfoNull();
-		if (currentCart.size() == 0) {
+		if (currentCarts.size() == 0) {
 			System.out.println("장바구니에 담긴 상품이 없습니다.");
 			totalPriceLabel.setText("총 주문 금액 : " + 0 + "원");			
 			return;
@@ -147,12 +149,12 @@ public class CartPanel extends JPanel implements ActionListener {
 		int priceSum = 0;
 		
 		// 장바구니 항목 개수만큼 반복
-		for (int i = 0; i < currentCart.size(); i++) {
-			productList.get(i)[0].setText(currentCart.get(i).getProductName());
-			productList.get(i)[1].setText(currentCart.get(i).getAmount() + "");
-			productList.get(i)[2].setText(currentCart.get(i).getTotalPrice() + "");
+		for (int i = 0; i < currentCarts.size(); i++) {
+			productList.get(i)[0].setText(currentCarts.get(i).getProductName());
+			productList.get(i)[1].setText(currentCarts.get(i).getAmount() + "");
+			productList.get(i)[2].setText(currentCarts.get(i).getTotalPrice() + "");
 			deleteButtons[i].setVisible(true);
-			priceSum += currentCart.get(i).getTotalPrice();
+			priceSum += currentCarts.get(i).getTotalPrice();
 		}
 		
 		totalPriceLabel.setText("총 주문 금액 : " + priceSum + "원");
@@ -162,11 +164,18 @@ public class CartPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton targetButton = (JButton) e.getSource();
 		
+		if (targetButton == orderButton) {
+			if (currentCarts.size() != 0) {
+				new OrderFrame(currentCarts, mContext);
+			}
+			return;
+		}
+		
 		for (int i = 0; i < deleteButtons.length; i++) {
 			if (targetButton == deleteButtons[i]) {
 				int a = JOptionPane.showConfirmDialog(this, "해당 상품을 삭제하시겠습니까?", "장바구니 삭제", JOptionPane.YES_NO_OPTION);
 				if (a == JOptionPane.YES_OPTION) {
-					int result = cartController.requestDeleteProduct(currentCart.get(i));
+					int result = cartController.requestDeleteProduct(currentCarts.get(i));
 					if (result != 1) {
 						System.out.println("삭제되지 않음");
 					}

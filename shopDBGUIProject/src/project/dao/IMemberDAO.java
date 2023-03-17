@@ -17,7 +17,8 @@ public interface IMemberDAO {
 	
 	
 	// 정보 수정 기능 (UPDATE)
-	
+//	int UPDATE(MemberDTO dto, String id);
+	int update(int point, String id);
 	
 	// 회원 탈퇴 기능 (DELETE)
 	

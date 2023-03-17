@@ -116,5 +116,27 @@ public class MemberDAO implements IMemberDAO {
 		}
 		return resultDto;
 	} // end of select (조건 2개)
+
+	@Override
+	public int update(int point, String id) {
+		int result = 0;
+		String sql = " UPDATE member SET point = ? WHERE id = ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, point);
+			pstmt.setString(2, id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 }

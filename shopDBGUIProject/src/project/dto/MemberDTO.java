@@ -8,6 +8,7 @@ public class MemberDTO {
 	private String name;
 	private String phoneNumber;
 	private String address;
+	private int point; // 적립금 (기본값 0)
 
 	public MemberDTO(String id, String password, String name, String phone_number, String address) {
 		this.id = id;
@@ -69,6 +70,14 @@ public class MemberDTO {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
 	}
 
 	@Override

@@ -6,9 +6,6 @@ import project.dto.MemberDTO;
 public class MemberService {
 
 	private MemberDAO memberDAO;
-	// 오타 방지를 위해 String 배열로 선언해서 사용
-	private String[] memberColumns = {"id", "password", "member_grade", 
-									  "name", "phone_number", "address"};
 	
 	public MemberService() {
 		memberDAO = new MemberDAO();
@@ -34,8 +31,8 @@ public class MemberService {
 			return result;
 
 			// id나 전화번호가 중복된 경우 실행 X (result == 4)
-		} else if ( memberDAO.select(memberColumns[0], member.getId()).size() == 1
-						|| memberDAO.select(memberColumns[4], member.getPhoneNumber()).size() == 1 ) {
+		} else if ( memberDAO.select("id", member.getId()).size() == 1
+						|| memberDAO.select("phone_number", member.getPhoneNumber()).size() == 1 ) {
 			result = 4;
 			return result;
 		}
@@ -57,7 +54,7 @@ public class MemberService {
 			return result;
 		}
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.select(memberColumns[0], id).size(); 
+		result = memberDAO.select("id", id).size(); 
 		return result;
 	} // end of checkId
 
@@ -79,7 +76,7 @@ public class MemberService {
 		}
 
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.select(memberColumns[4], phoneNumber).size();
+		result = memberDAO.select("phone_number", phoneNumber).size();
 		System.out.println(result);
 		return result;
 	} // end of checkPhoneNumber
@@ -94,7 +91,7 @@ public class MemberService {
 		}
 		
 		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
-		resultMemberDTO = memberDAO.select(memberColumns[0], id, memberColumns[1], password);
+		resultMemberDTO = memberDAO.select("id", id, "password", password);
 		
 		// 로그인 시에 password 정보를 반환하지 않도록 함 (민감한 정보)
 		if (resultMemberDTO != null) {
@@ -114,8 +111,7 @@ public class MemberService {
 		}
 		
 		// 입력한 정보가 정확하다면 객체가 생성됨 (아니면 null)
-		MemberDTO targetDto = memberDAO.select(memberColumns[0], id, 
-																							memberColumns[4], phoneNumber);
+		MemberDTO targetDto = memberDAO.select("id", id, "phone_number", phoneNumber);
 		
 		// 방어적 코드 (null이 아닐 때만)
 		if (targetDto != null) {
@@ -123,5 +119,13 @@ public class MemberService {
 		}
 		return resultPw;
 	} // end of findPassword
+	
+	// 적립금 수정 로직 처리
+	public int updatePoint(int point, String id) {
+		int result = 0;
+		
+		result = memberDAO.update(point, id);
+		return result;
+	}
 
 }

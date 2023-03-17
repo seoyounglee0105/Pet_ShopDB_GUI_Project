@@ -6,19 +6,18 @@ public class OrderDTO {
 	private String memberId;
 	private int productId;
 	private int amount;
+	private String orderDate;
+	private int state; // 0 : 상품 준비중, 1 : 배송중, 2 : 배송 완료
 	
 	private String productName;
 	private int totalPrice;
-
-	public OrderDTO(int id, String memberId, int productId, int amount, String productName, int totalPrice) {
-		super();
-		this.id = id;
+	
+	public OrderDTO(String memberId, int productId, int amount) {
 		this.memberId = memberId;
 		this.productId = productId;
 		this.amount = amount;
-		this.productName = productName;
-		this.totalPrice = totalPrice;
 	}
+
 
 	public OrderDTO() {
 	}
@@ -69,6 +68,23 @@ public class OrderDTO {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}	
+	
 	
 }

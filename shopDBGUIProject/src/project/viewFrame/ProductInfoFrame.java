@@ -21,10 +21,9 @@ import project.dto.ProductDTO;
 
 public class ProductInfoFrame extends JFrame implements ActionListener {
 	
-	private ProductController productController;
 	private ShopFrame mContext;
 	private CartController cartController;
-	private MemberDTO loginMember;
+	private MemberDTO loginMemberDto;
 	private ProductDTO currentProduct;
 	
 	private JPanel topPanel;
@@ -41,12 +40,9 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 	
 	private Color grayColor;
 
-	public ProductInfoFrame(ProductDTO targetDto, MemberDTO loginMember, ShopFrame mContext) {
+	public ProductInfoFrame(ProductDTO targetDto, ShopFrame mContext) {
 		this.mContext = mContext;
-		this.loginMember = loginMember;
 		this.currentProduct = targetDto;
-		productController = new ProductController();
-		cartController = new CartController();
 		initData();
 		setInitLayout();
 		addEventListenr();
@@ -55,6 +51,9 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 	private void initData() {
 		setTitle("'" + currentProduct.getName() + "' 상세 페이지");
 		setSize(400, 600);
+		
+		loginMemberDto = mContext.getLoginMemberDto();
+		cartController = new CartController();
 		grayColor = new Color(232, 239, 239);
 		topPanel = new JPanel();
 		namePanel = new JPanel();
@@ -164,8 +163,8 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "수량을 숫자로 입력해주세요.", "실패", JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
-			CartDTO cartDTO = new CartDTO(loginMember.getId(), currentProduct.getId(), amount);
-			int result = cartController.requestAddProduct(loginMember, cartDTO);
+			CartDTO cartDTO = new CartDTO(loginMemberDto.getId(), currentProduct.getId(), amount);
+			int result = cartController.requestAddProduct(loginMemberDto, cartDTO);
 			
 			if (result == 2) {
 				// 상품이 중복됨을 알려주고, 수량을 더 추가할 것인지 물음
@@ -174,7 +173,7 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 						JOptionPane.YES_NO_OPTION);
 				if (a == JOptionPane.YES_OPTION) {
 					// 수량 갱신 메서드
-					CartDTO targetCart = cartController.requestViewCartByProductId(loginMember, currentProduct.getId());
+					CartDTO targetCart = cartController.requestViewCartByProductId(loginMemberDto, currentProduct.getId());
 					// 기존 수량 + 추가 수량
 					int totalAmount = amount + targetCart.getAmount();
 					cartController.requestUpdateAmount(totalAmount, cartDTO);

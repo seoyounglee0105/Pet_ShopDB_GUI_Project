@@ -283,15 +283,15 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	} // end of actionPerformed
 	
-	
+	// 아무것도 선택하지 않았다면 -1을 매개변수로
 	public void selectedCategory(int index) {
 		for (int i = 0; i < categoryButtons.length; i++) {
-			// 나머지 카테고리는 검정색 글자로
-			categoryButtons[i].setForeground(Color.black);
-
 			// 해당 카테고리가 선택되었다면 포인트 색을 부여함
 			if (i == index) {
 				categoryButtons[i].setForeground(pointColor);
+			} else {
+				// 나머지 카테고리는 검정색 글자로
+				categoryButtons[i].setForeground(Color.black);
 			}
 		}
 	}

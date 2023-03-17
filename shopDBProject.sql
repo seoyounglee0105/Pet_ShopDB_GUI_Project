@@ -23,6 +23,9 @@ CREATE TABLE member (
     FOREIGN KEY (member_grade) REFERENCES grade(name)
 );
 
+ALTER TABLE member
+ADD point INT DEFAULT 0; -- 적립금
+
 -- 회원 등급 테이블
 CREATE TABLE grade (
 	name VARCHAR(10) PRIMARY KEY
@@ -170,9 +173,13 @@ CREATE TABLE `order` (
 	id INT PRIMARY KEY AUTO_INCREMENT,
     member_id VARCHAR(15) NOT NULL, -- 이걸로 장바구니랑 연결
     product_id INT NOT NULL,
-    amount INT NOT NULL DEFAULT 1
+    amount INT NOT NULL DEFAULT 1,
+    order_date DATE NOT NULL,
+    state INT DEFAULT 0 -- 배송 여부
 );
-    
+
+DROP TABLE `order`;
+SELECT * FROM `order`;
     
     
     

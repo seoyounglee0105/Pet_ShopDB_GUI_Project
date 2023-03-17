@@ -168,7 +168,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 					
 					String targetDtoPhoto = targetJLabel.getIcon().toString();
 					ProductDTO targetDTO = productController.requestSelectMainPhoto(targetDtoPhoto);
-					new ProductInfoFrame(targetDTO, mContext.getLoginMemberDto(), mContext);
+					new ProductInfoFrame(targetDTO, mContext);
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
@@ -474,12 +474,12 @@ public class ProductListPanel extends JPanel implements ActionListener {
 	
 	public void selectedOrderByButton(int index) {
 		for (int i = 0; i < orderByButtons.length; i++) {
-			// 나머지 버튼은 검정색 글자로
-			orderByButtons[i].setForeground(Color.black);
-
 			// 해당 버튼이 선택되었다면 포인트 색을 부여함
 			if (i == index) {
 				orderByButtons[i].setForeground(pointColor);
+			} else {
+				// 나머지 버튼은 검정색 글자로
+				orderByButtons[i].setForeground(Color.black);
 			}
 		}
 	}

@@ -50,4 +50,10 @@ public class MemberController {
 		responseStr = memberService.findPassword(id, phoneNumber);
 		return responseStr;
 	}
+	
+	// 해당 회원의 적립금 수정 처리
+	public void requestUpdatePoint(int point, String id) {
+		int response = memberService.updatePoint(point, id);
+		System.out.println("적립금 수정 완료");
+	}
 }
