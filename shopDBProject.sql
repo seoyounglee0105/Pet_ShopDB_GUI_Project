@@ -11,6 +11,13 @@ USE my_shopdb;
 
 DROP TABLE member;
 DROP TABLE grade;
+DROP TABLE `order`;
+DELETE FROM `order`;
+DROP TABLE cart;
+
+
+
+SELECT * FROM member;
 
 -- 회원 테이블
 CREATE TABLE member (
@@ -20,8 +27,11 @@ CREATE TABLE member (
     name VARCHAR(30) NOT NULL,  -- 이름
     phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
     address VARCHAR(100) NOT NULL,  -- 주소
+    point INT DEFAULT 0,
     FOREIGN KEY (member_grade) REFERENCES grade(name)
 );
+
+DESC member;
 
 ALTER TABLE member
 ADD point INT DEFAULT 0; -- 적립금
@@ -30,6 +40,8 @@ ADD point INT DEFAULT 0; -- 적립금
 CREATE TABLE grade (
 	name VARCHAR(10) PRIMARY KEY
 );
+
+SELECT * FROM grade;
 
 DELETE FROM member;
 DELETE FROM grade;
@@ -41,9 +53,6 @@ VALUES
     ('Silver'),
     ('Bronze');
 
--- 회원 가입
-INSERT INTO member(id, password, name, phone_number, address)
-VALUES ('abc', '1234', '홍길동', '010-1111-1111', '부산광역시');
 
 SELECT * FROM member;
 
@@ -182,7 +191,9 @@ DROP TABLE `order`;
 SELECT * FROM `order`;
     
     
-    
+UPDATE product
+SET main_photo = "images/1.jpg"
+WHERE id = 1;
     
     
     
@@ -205,8 +216,6 @@ DROP TABLE product;
 -- 찜목록 테이블
 
 
--- 주문 테이블
--- id, 상품 id(외래키), 주문자 id(외래키), 수량, 주문일자, 배송완료여부(bool)
 
 -- 리뷰 테이블 (작성자id + 상품id가 주문 테이블에 존재하는지 확인하고 리뷰 작성 가능하게
 -- 상품 id, 작성자 id, 별점(int : 1~5), 제목, 본문, 사진(NULL)
