@@ -145,7 +145,7 @@ public class LoginFrame extends JFrame implements ActionListener{
 			} else {
 				// 확인을 누르면 로그인 프레임 닫기 + 쇼핑몰 홈페이지 프레임
 				JOptionPane.showMessageDialog(null, id + "님, 환영합니다!", "로그인 성공", JOptionPane.PLAIN_MESSAGE);
-				new ShopFrame(loginMemberDTO);
+				new ShopFrame(id, pw);
 				this.dispose();
 			}			
 		}

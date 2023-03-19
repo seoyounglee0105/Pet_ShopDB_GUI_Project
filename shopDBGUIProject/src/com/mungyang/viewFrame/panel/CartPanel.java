@@ -1,4 +1,4 @@
-package com.mungyang.panel;
+package com.mungyang.viewFrame.panel;
 
 import java.awt.Color;
 import java.awt.Font;

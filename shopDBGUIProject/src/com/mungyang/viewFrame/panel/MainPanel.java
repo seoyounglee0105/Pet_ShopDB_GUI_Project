@@ -1,4 +1,4 @@
-package com.mungyang.panel;
+package com.mungyang.viewFrame.panel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -124,10 +124,18 @@ public class MainPanel extends JPanel implements ActionListener {
 				mContext.visiblePanel(1);
 				mContext.getProductListPanel().searchProduct(searchList);
 				mContext.getProductListPanel().getSearchLabel().setText("'" + searchName + "' 검색 결과입니다.");
-				// 이동하고 나면 검색어는 초기화
-				searchField.setText("");
 			}
 		}
 	}
+
+	public JTextField getSearchField() {
+		return searchField;
+	}
+
+	public void setSearchField(JTextField searchField) {
+		this.searchField = searchField;
+	}
+	
+	
 
 }

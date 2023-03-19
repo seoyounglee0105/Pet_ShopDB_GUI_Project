@@ -46,7 +46,7 @@ public class ProductController {
 	}
 	
 	// MainPhoto 경로에 해당하는 Dto 조회 요청
-	public ProductDTO requestSelectMainPhoto(String mainPhoto) {
+	public ProductDTO requestSelectByMainPhoto(String mainPhoto) {
 		ProductDTO responseDto = null;
 		
 		responseDto = productService.selectByMainPhoto(mainPhoto);
@@ -59,6 +59,17 @@ public class ProductController {
 		
 		responseList = productService.searchProduct(searchName);
 		return responseList;
+	}
+	
+	// 이름에 해당하는 Dto 조회 요청
+	public ProductDTO requestSelectByName(String name) {
+		ProductDTO responseDto = null;
+		
+		responseDto = productService.selectByName(name);
+		if (responseDto == null) {
+			System.out.println("해당하는 상품이 없습니다.");
+		}
+		return responseDto;
 	}
 	
 }

@@ -23,7 +23,6 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext;
 	private CartController cartController;
-	private MemberDTO loginMemberDto;
 	private ProductDTO currentProduct;
 
 	private JPanel topPanel;
@@ -54,7 +53,6 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		setTitle("'" + currentProduct.getName() + "' 상세 페이지");
 		setSize(400, 600);
 
-		loginMemberDto = mContext.getLoginMemberDto();
 		cartController = new CartController();
 		grayColor = new Color(232, 239, 239);
 		topPanel = new JPanel();
@@ -190,8 +188,8 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 
 		// 장바구니 추가 버튼
 		if (targetButton == addCartButton) {
-			CartDTO cartDTO = new CartDTO(loginMemberDto.getId(), currentProduct.getId(), amount);
-			int result = cartController.requestAddProduct(loginMemberDto, cartDTO);
+			CartDTO cartDTO = new CartDTO(mContext.getLoginMemberDto().getId(), currentProduct.getId(), amount);
+			int result = cartController.requestAddProduct(mContext.getLoginMemberDto(), cartDTO);
 
 			if (result == 2) {
 				// 상품이 중복됨을 알려주고, 수량을 더 추가할 것인지 물음
@@ -200,7 +198,7 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 						JOptionPane.YES_NO_OPTION);
 				if (a == JOptionPane.YES_OPTION) {
 					// 수량 갱신 메서드
-					CartDTO targetCart = cartController.requestViewCartByProductId(loginMemberDto,
+					CartDTO targetCart = cartController.requestViewCartByProductId(mContext.getLoginMemberDto(),
 							currentProduct.getId());
 					// 기존 수량 + 추가 수량
 					int totalAmount = amount + targetCart.getAmount();

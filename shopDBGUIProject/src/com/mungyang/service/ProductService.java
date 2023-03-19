@@ -76,5 +76,11 @@ public class ProductService {
 		return result;
 	}
 	
+	// 이름에 해당하는 Dto 조회
+	public ProductDTO selectByName(String name) {
+		ProductDTO result = null;
+		result = productDAO.select("name", name);
+		return result;
+	}
 	
 }

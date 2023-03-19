@@ -52,9 +52,10 @@ public class MemberController {
 	}
 	
 	// 해당 회원의 적립금 수정 처리
-	public void requestUpdatePoint(int point, String id) {
-		int response = memberService.updatePoint(point, id);
+	public int requestUpdatePoint(int addPoint, String id) {
+		int newPoint = memberService.updatePoint(addPoint, id);
 		System.out.println("적립금 수정 완료");
+		return newPoint;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.mungyang.panel;
+package com.mungyang.viewFrame.panel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -199,7 +199,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 					// 방어적 코드
 					if (targetJLabel.getIcon() != null) {
 						String targetDtoPhoto = targetJLabel.getIcon().toString();
-						ProductDTO targetDTO = productController.requestSelectMainPhoto(targetDtoPhoto);
+						ProductDTO targetDTO = productController.requestSelectByMainPhoto(targetDtoPhoto);
 						new ProductInfoFrame(targetDTO, mContext);						
 					}
 				}

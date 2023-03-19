@@ -16,15 +16,17 @@ import javax.swing.JPanel;
 import com.mungyang.controller.MemberController;
 import com.mungyang.controller.ProductController;
 import com.mungyang.dto.MemberDTO;
-import com.mungyang.panel.CartPanel;
-import com.mungyang.panel.MainPanel;
-import com.mungyang.panel.MyPagePanel;
-import com.mungyang.panel.ProductListPanel;
+import com.mungyang.viewFrame.panel.CartPanel;
+import com.mungyang.viewFrame.panel.MainPanel;
+import com.mungyang.viewFrame.panel.MyPagePanel;
+import com.mungyang.viewFrame.panel.ProductListPanel;
+import com.mungyang.viewFrame.panel.ReviewWritePanel;
 
 public class ShopFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext = this;
 	private MemberDTO loginMemberDto; // 로그인된 회원의 DTO객체
+	private MemberController memberController;
 	
 	private JPanel topPanel; // 상단 패널
 	private JLabel gradeLabel; // 로그인된 회원의 등급 아이콘
@@ -44,13 +46,15 @@ public class ShopFrame extends JFrame implements ActionListener {
 	
 	private CartPanel cartPanel;
 	private MyPagePanel myPagePanel;
+	private ReviewWritePanel reviewWritePanel;
 	
 	private Color mintColor;
 	private Color grayColor;
 	private Color pointColor;
 	
-	public ShopFrame(MemberDTO loginMember) {
-		this.loginMemberDto = loginMember;
+	public ShopFrame(String id, String password) {
+		memberController = new MemberController();
+		loginMemberDto = memberController.requestLogin(id, password);
 		initData();
 		setInitLayout();
 		addEventListener();
@@ -96,6 +100,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		productListPanel = new ProductListPanel(mContext);
 		cartPanel = new CartPanel(mContext);
 		myPagePanel = new MyPagePanel(mContext);
+		reviewWritePanel = new ReviewWritePanel(mContext);
 		
 		mintColor = new Color(200, 235, 226);
 		grayColor = new Color(232, 239, 239);
@@ -194,6 +199,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 		myPagePanel.setLocation(201, 70);
 		myPagePanel.setVisible(false);
 		add(myPagePanel);
+		
+		reviewWritePanel.setLocation(201, 70);
+		reviewWritePanel.setVisible(false);
+		add(reviewWritePanel);
 
 		setVisible(true);
 	}
@@ -226,6 +235,8 @@ public class ShopFrame extends JFrame implements ActionListener {
 		} else if (targetButton == homeButton) {
 			selectedCategory(-1);
 			visiblePanel(0);
+			mainPanel.getSearchField().setText("검색어를 입력해주세요.");
+			mainPanel.getSearchField().setForeground(Color.gray);
 			
 		// 종료 버튼
 		} else if (targetButton == exitButton) {
@@ -297,9 +308,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	// main : 0 / productList : 1 / cart : 2 / myPage : 3
+	// main : 0 / productList : 1 / cart : 2 / myPage : 3 / reviewWrite : 4
 	public void visiblePanel(int index) {
-		JPanel[] panelList = {mainPanel, productListPanel, cartPanel, myPagePanel};
+		JPanel[] panelList = {mainPanel, productListPanel, cartPanel, myPagePanel, reviewWritePanel};
 		for (int i = 0; i < panelList.length; i++) {
 			if (i == index) {
 				panelList[i].setVisible(true);
@@ -327,6 +338,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 
 	public ProductListPanel getProductListPanel() {
 		return productListPanel;
+	}
+
+	public ReviewWritePanel getReviewWritePanel() {
+		return reviewWritePanel;
 	}
 	
 	

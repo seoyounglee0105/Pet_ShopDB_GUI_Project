@@ -73,12 +73,14 @@ public class OrderController {
 		return responseType;
 	}
 	
-	// 주문 조회 요청
+	// 주문 조회 요청 (회원별)
 	public ArrayList<OrderDTO> requestSelectOrder(String memberId){
 		ArrayList<OrderDTO> resultList = new ArrayList<>();
 		
 		resultList = orderService.selectOrder(memberId);
 		return resultList;
 	}
+	
+	
 	
 }

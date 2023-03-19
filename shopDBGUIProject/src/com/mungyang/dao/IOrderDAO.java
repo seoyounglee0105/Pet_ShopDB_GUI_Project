@@ -11,5 +11,6 @@ public interface IOrderDAO {
 	
 	// select
 	ArrayList<OrderDTO> select(String memberId);
+	ArrayList<OrderDTO> select(String memberId, int productId);
 	
 }

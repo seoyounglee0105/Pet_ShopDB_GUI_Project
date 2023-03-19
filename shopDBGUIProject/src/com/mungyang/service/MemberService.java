@@ -127,11 +127,18 @@ public class MemberService {
 	} // end of findPassword
 	
 	// 적립금 수정 로직 처리
-	public int updatePoint(int point, String id) {
+	public int updatePoint(int addPoint, String id) {
 		int result = 0;
 		
-		result = memberDAO.update("point", point, id);
-		return result;
+		int newPoint = memberDAO.select("id", id).get(0).getPoint() + addPoint;
+		
+		int type = memberDAO.update("point", newPoint, id);
+		
+		if (type == 0) {
+			System.out.println("적립금 수정 실패");
+			return result;
+		}
+		return newPoint;
 	}
 	
 	// 회원 등급 수정 로직 처리
