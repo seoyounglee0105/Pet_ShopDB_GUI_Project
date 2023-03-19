@@ -166,6 +166,7 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 			public void keyPressed(KeyEvent e) {
 				if (idHintOff == false) {
 					idTextField.setText("");
+					idTextField.setForeground(Color.black);
 					idHintOff = true;
 				}
 			}

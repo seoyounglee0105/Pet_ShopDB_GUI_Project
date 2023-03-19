@@ -80,14 +80,14 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		pointColor = new Color(111, 188, 170);
 		
 		searchLabel = new JLabel();
-		searchField = new JTextField();
+		searchField = new JTextField("검색어를 입력해주세요.");
 		searchButton = new JButton(new ImageIcon("images/search.png"));
 	}
 
 	private void setInitLayout() {
 		setLayout(null);
 		setBackground(panelColor);
-		categoryState = -1;
+		categoryState = 0;
 
 		// [0] : 상품 사진 (mainPhoto)
 		// [1] : 상품 이름 (name)
@@ -166,11 +166,13 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		searchLabel.setSize(200, 20);
 		searchLabel.setLocation(30, 20);
 		searchLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		searchLabel.setVisible(false);
 		add(searchLabel);
 		
 		searchField.setSize(200, 30);
 		searchField.setLocation(530, 20);
 		searchField.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		searchField.setForeground(Color.gray);
 		add(searchField);
 		
 		searchButton.setSize(30, 30);
@@ -178,6 +180,8 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		searchButton.setBorder(null);
 		searchButton.setBackground(panelColor);
 		add(searchButton);
+		
+		showAll();
 		
 	} // end of setInitLayout
 
@@ -215,6 +219,26 @@ public class ProductListPanel extends JPanel implements ActionListener {
 				}
 			});
 		}
+		searchField.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// 클릭하면 검색어 힌트 제거
+				searchField.setText("");
+				searchField.setForeground(Color.black);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		searchButton.addActionListener(this);
 		searchField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -234,6 +258,9 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		if (pageCount == 0) {
 			return;
 		}
+		
+		searchField.setText("검색어를 입력해주세요.");
+		searchField.setForeground(Color.gray);
 
 		// pageCount == 1인 경우 (한 페이지 내에 모든 DTO를 표현할 수 있는 경우)
 		if (pageCount == 1) {
@@ -588,6 +615,13 @@ public class ProductListPanel extends JPanel implements ActionListener {
 				searchField.setVisible(true);
 				searchLabel.setVisible(true);
 			}
+		} else if (categoryState == 0) {
+			for (int i = 0; i < orderByButtons.length; i++) {
+				orderByButtons[i].setVisible(true);
+				searchButton.setVisible(true);
+				searchField.setVisible(true);
+				searchLabel.setVisible(false);
+			}			
 		} else {
 			for (int i = 0; i < orderByButtons.length; i++) {
 				orderByButtons[i].setVisible(true);

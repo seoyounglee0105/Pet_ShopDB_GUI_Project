@@ -14,16 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.mungyang.controller.CartController;
+import com.mungyang.controller.MemberController;
 import com.mungyang.controller.ProductController;
 import com.mungyang.dto.CartDTO;
 import com.mungyang.dto.MemberDTO;
 import com.mungyang.dto.ProductDTO;
+import com.mungyang.viewFrame.panel.ReviewListPanel;
 
 public class ProductInfoFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext;
-	private CartController cartController;
+	private MemberDTO loginMemberDto;	
 	private ProductDTO currentProduct;
+	private CartController cartController;
+	private MemberController memberController;
 
 	private JPanel topPanel;
 	private JPanel namePanel;
@@ -38,6 +42,8 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 	private JButton amountUpButton;
 	private JTextField amountField;
 	private JButton addCartButton;
+	
+	private ReviewListPanel reviewListPanel;
 
 	private Color grayColor;
 
@@ -46,14 +52,15 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		this.currentProduct = targetDto;
 		initData();
 		setInitLayout();
-		addEventListenr();
+		addEventListener();
 	}
 
 	private void initData() {
 		setTitle("'" + currentProduct.getName() + "' 상세 페이지");
 		setSize(400, 600);
-
 		cartController = new CartController();
+		memberController = new MemberController();
+		loginMemberDto = memberController.requestMemberInfo(mContext.getLoginId());
 		grayColor = new Color(232, 239, 239);
 		topPanel = new JPanel();
 		namePanel = new JPanel();
@@ -68,6 +75,7 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		amountUpButton = new JButton("▶");
 		amountField = new JTextField("1");
 		addCartButton = new JButton("장바구니에 추가");
+		reviewListPanel = new ReviewListPanel(currentProduct);
 	}
 
 	private void setInitLayout() {
@@ -153,11 +161,14 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		addCartButton.setBorder(null);
 		addCartButton.setBackground(new Color(171, 222, 210));
 		add(addCartButton);
+		
+		reviewListPanel.setLocation(22, 359);
+		add(reviewListPanel);
 
 		setVisible(true);
 	}
 
-	private void addEventListenr() {
+	private void addEventListener() {
 		addCartButton.addActionListener(this);
 		amountDownButton.addActionListener(this);
 		amountUpButton.addActionListener(this);
@@ -188,8 +199,8 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 
 		// 장바구니 추가 버튼
 		if (targetButton == addCartButton) {
-			CartDTO cartDTO = new CartDTO(mContext.getLoginMemberDto().getId(), currentProduct.getId(), amount);
-			int result = cartController.requestAddProduct(mContext.getLoginMemberDto(), cartDTO);
+			CartDTO cartDTO = new CartDTO(loginMemberDto.getId(), currentProduct.getId(), amount);
+			int result = cartController.requestAddProduct(loginMemberDto, cartDTO);
 
 			if (result == 2) {
 				// 상품이 중복됨을 알려주고, 수량을 더 추가할 것인지 물음
@@ -198,7 +209,7 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 						JOptionPane.YES_NO_OPTION);
 				if (a == JOptionPane.YES_OPTION) {
 					// 수량 갱신 메서드
-					CartDTO targetCart = cartController.requestViewCartByProductId(mContext.getLoginMemberDto(),
+					CartDTO targetCart = cartController.requestViewCartByProductId(loginMemberDto,
 							currentProduct.getId());
 					// 기존 수량 + 추가 수량
 					int totalAmount = amount + targetCart.getAmount();

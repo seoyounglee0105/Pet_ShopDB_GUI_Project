@@ -49,8 +49,8 @@ public class MemberDAO implements IMemberDAO {
 	
 	// 하나의 조건을 이용한 SELECT
 	@Override
-	public ArrayList<MemberDTO> select(String columnName, String value) {
-		ArrayList<MemberDTO> resultList = new ArrayList<>();
+	public MemberDTO select(String columnName, String value) {
+		MemberDTO resultDto = null;
 		String sql = " SELECT * FROM member WHERE " + columnName + " = ? ";
 
 		try {
@@ -60,14 +60,14 @@ public class MemberDAO implements IMemberDAO {
 
 		// 행이 존재한다면 while문으로 들어감
 			while (rs.next()) {
-				MemberDTO dto = new MemberDTO();
-				dto.setId(rs.getString("id"));
-				dto.setPassword(rs.getString("password"));
-				dto.setMemberGrade(rs.getString("member_grade"));
-				dto.setName(rs.getString("name"));
-				dto.setPhoneNumber(rs.getString("phone_number"));
-				dto.setAddress(rs.getString("address"));
-				resultList.add(dto);
+				resultDto = new MemberDTO();
+				resultDto.setId(rs.getString("id"));
+				resultDto.setPassword(rs.getString("password"));
+				resultDto.setMemberGrade(rs.getString("member_grade"));
+				resultDto.setName(rs.getString("name"));
+				resultDto.setPhoneNumber(rs.getString("phone_number"));
+				resultDto.setAddress(rs.getString("address"));
+				resultDto.setPoint(rs.getInt("point"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,10 +79,10 @@ public class MemberDAO implements IMemberDAO {
 				e.printStackTrace();
 			}
 		}
-		return resultList;
+		return resultDto;
 	} // end of select (조건 1개)
 
-	// 두 개의 조건을 이용한 SELECT (완전히 식별하는 목적이므로 단일 객체 반환)
+	// 두 개의 조건을 이용한 SELECT
 	@Override
 	public MemberDTO select(String firstColumn, String firstValue, String secondColumn, String secondValue) {
 		MemberDTO resultDto = null;
@@ -103,6 +103,7 @@ public class MemberDAO implements IMemberDAO {
 				resultDto.setName(rs.getString("name"));
 				resultDto.setPhoneNumber(rs.getString("phone_number"));
 				resultDto.setAddress(rs.getString("address"));
+				resultDto.setPoint(rs.getInt("point"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

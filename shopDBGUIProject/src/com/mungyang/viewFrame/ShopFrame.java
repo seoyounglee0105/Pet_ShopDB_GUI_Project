@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,10 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.mungyang.controller.MemberController;
-import com.mungyang.controller.ProductController;
 import com.mungyang.dto.MemberDTO;
 import com.mungyang.viewFrame.panel.CartPanel;
-import com.mungyang.viewFrame.panel.MainPanel;
 import com.mungyang.viewFrame.panel.MyPagePanel;
 import com.mungyang.viewFrame.panel.ProductListPanel;
 import com.mungyang.viewFrame.panel.ReviewWritePanel;
@@ -25,7 +22,7 @@ import com.mungyang.viewFrame.panel.ReviewWritePanel;
 public class ShopFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext = this;
-	private MemberDTO loginMemberDto; // 로그인된 회원의 DTO객체
+	private String loginId; // 로그인된 회원 id
 	private MemberController memberController;
 	
 	private JPanel topPanel; // 상단 패널
@@ -41,7 +38,6 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private JButton[] categoryButtons = new JButton[6]; // 카테고리 버튼 배열
 	private JButton exitButton;
 	
-	private MainPanel mainPanel; // 홈 버튼 누르면 나오는 패널
 	private ProductListPanel productListPanel; // 카테고리 누르면 나오는 패널
 	
 	private CartPanel cartPanel;
@@ -52,9 +48,8 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private Color grayColor;
 	private Color pointColor;
 	
-	public ShopFrame(String id, String password) {
-		memberController = new MemberController();
-		loginMemberDto = memberController.requestLogin(id, password);
+	public ShopFrame(String id) {
+		loginId = id;
 		initData();
 		setInitLayout();
 		addEventListener();
@@ -69,6 +64,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 		setSize(1000, 800);
 		
 		topPanel = new JPanel();
+		
+		memberController = new MemberController();
+		MemberDTO loginMemberDto = memberController.requestMemberInfo(loginId);
 		
 		gradeLabel = new JLabel();
 		if (loginMemberDto.getMemberGrade().equals("Gold")) {
@@ -96,7 +94,6 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 		exitButton = new JButton("Exit");
 		
-		mainPanel = new MainPanel(mContext);
 		productListPanel = new ProductListPanel(mContext);
 		cartPanel = new CartPanel(mContext);
 		myPagePanel = new MyPagePanel(mContext);
@@ -185,11 +182,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		categoryLabel.setSize(175, 650);
 		categoryPanel.add(categoryLabel);
 	
-		mainPanel.setLocation(201, 70);
-		add(mainPanel);
-		
 		productListPanel.setLocation(201, 70);
-		productListPanel.setVisible(false);
 		add(productListPanel);
 		
 		cartPanel.setLocation(201, 70);
@@ -233,10 +226,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 			
 		// 홈 버튼
 		} else if (targetButton == homeButton) {
-			selectedCategory(-1);
+			selectedCategory(0);
+			productListPanel.showAll();
 			visiblePanel(0);
-			mainPanel.getSearchField().setText("검색어를 입력해주세요.");
-			mainPanel.getSearchField().setForeground(Color.gray);
 			
 		// 종료 버튼
 		} else if (targetButton == exitButton) {
@@ -250,48 +242,48 @@ public class ShopFrame extends JFrame implements ActionListener {
 		} else if (targetButton == categoryButtons[0]) {
 			selectedCategory(0);
 			productListPanel.showAll();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 카테고리 - 의류 버튼
 		} else if (targetButton == categoryButtons[1]) {
 			selectedCategory(1);
 			productListPanel.showClothes();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 카테고리 - 음식 버튼
 		} else if (targetButton == categoryButtons[2]) {
 			selectedCategory(2);
 			productListPanel.showFood();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 카테고리 - 가구 버튼
 		} else if (targetButton == categoryButtons[3]) {
 			selectedCategory(3);
 			productListPanel.showLiving();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 카테고리 - 장난감 버튼
 		} else if (targetButton == categoryButtons[4]) {
 			selectedCategory(4);
 			productListPanel.showToy();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 카테고리 - 기타 버튼
 		} else if (targetButton == categoryButtons[5]) {
 			selectedCategory(5);
 			productListPanel.showEtc();
-			visiblePanel(1);
+			visiblePanel(0);
 			
 		// 장바구니 버튼
 		} else if (targetButton == cartButton) {
 			selectedCategory(-1);
 			cartPanel.viewCart();
-			visiblePanel(2);
+			visiblePanel(1);
 			
 		// 마이페이지 버튼
 		} else if (targetButton == myPageButton) {
 			selectedCategory(-1);
-			visiblePanel(3);
+			visiblePanel(2);
 		}
 	} // end of actionPerformed
 	
@@ -308,9 +300,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	// main : 0 / productList : 1 / cart : 2 / myPage : 3 / reviewWrite : 4
+	// productList : 0 / cart : 1 / myPage : 2 / reviewWrite : 3
 	public void visiblePanel(int index) {
-		JPanel[] panelList = {mainPanel, productListPanel, cartPanel, myPagePanel, reviewWritePanel};
+		JPanel[] panelList = {productListPanel, cartPanel, myPagePanel, reviewWritePanel};
 		for (int i = 0; i < panelList.length; i++) {
 			if (i == index) {
 				panelList[i].setVisible(true);
@@ -320,8 +312,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	public MemberDTO getLoginMemberDto() {
-		return loginMemberDto;
+	
+
+	public String getLoginId() {
+		return loginId;
 	}
 
 	public CartPanel getCartPanel() {

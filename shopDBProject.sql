@@ -1,24 +1,6 @@
 CREATE DATABASE my_shopdb;
 USE my_shopdb;
 
--- 목표
--- 1. 회원가입 기능 만들기 (INSERT)
--- 2. 로그인 기능 만들기
--- 3. 회원 탈퇴 기능 만들기 (DELETE)
--- 4. 비밀번호 변경 기능 만들기 (UPDATE)
-
--- 그다음에 상품 카테고리 만들어서 해당하는 상품을 주르르 나오게
-
-DROP TABLE member;
-DROP TABLE grade;
-DROP TABLE `order`;
-DELETE FROM `order`;
-DROP TABLE cart;
-
-
-
-SELECT * FROM member;
-
 -- 회원 테이블
 CREATE TABLE member (
     id VARCHAR(15) PRIMARY KEY,  -- 아이디
@@ -31,20 +13,10 @@ CREATE TABLE member (
     FOREIGN KEY (member_grade) REFERENCES grade(name)
 );
 
-DESC member;
-
-ALTER TABLE member
-ADD point INT DEFAULT 0; -- 적립금
-
 -- 회원 등급 테이블
 CREATE TABLE grade (
 	name VARCHAR(10) PRIMARY KEY
 );
-
-SELECT * FROM grade;
-
-DELETE FROM member;
-DELETE FROM grade;
 
 -- 회원 등급은 미리 데이터 생성해둠
 INSERT INTO grade
@@ -53,34 +25,23 @@ VALUES
     ('Silver'),
     ('Bronze');
 
-
-SELECT * FROM member;
-
 -- 상품 테이블
--- id, 상품이름, 상품종류(외래키), 가격, 메인사진(NOT NULL), 서브사진(NULL), 판매량(기본값 0), 등록일자
 CREATE TABLE product (
 	id int PRIMARY KEY AUTO_INCREMENT, 
     name VARCHAR(50) NOT NULL UNIQUE, -- 상품명
     price int NOT NULL, -- 가격
     category_id int NOT NULL, -- 상품 분류 (외래키)
     main_photo VARCHAR(50) NOT NULL UNIQUE, -- 사진1 (필수)
-    sub_photo VARCHAR(50), -- 사진2
     sales int DEFAULT 0, -- 판매량 : 주문 기능 구현할 때 +수량 되도록
 	insert_date DATE, -- 등록일자 : CURDATE()로 자동 생성
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
-
-
-DROP TABLE product;
-DROP TABLE category;
 
 -- 상품 분류 테이블
 CREATE TABLE category (
 	id int PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(15) NOT NULL UNIQUE
 );
-
-SELECT * FROM product;
 
 -- 상품 종류 테이블은 미리 데이터 삽입
 INSERT INTO category (name)
@@ -91,7 +52,6 @@ VALUES
     ('Toy'),
     ('etc.');
 
-DESC product;
 -- 테스트 데이터
 INSERT INTO product (name, price, category_id, main_photo, insert_date)
 VALUES
@@ -102,7 +62,7 @@ VALUES
     ('우유맛 껌', 1000, 2, "images/5.jpg", "2023-02-02"),
 	('강아지 유모차', 119000, 5, "images/6.jpg", "2023-02-02"),
     ('뽀글이 토끼 머리띠', 4000, 1, "images/7.jpg", "2023-02-03"),
-	('노즈워크 당근밭 장난감', 4000, 4, "images/8.jpg", "2023-02-03"),
+	('노즈워크 당근밭 장난감', 22000, 4, "images/8.jpg", "2023-02-03"),
     ('당근 후드티', 15000, 1, "images/9.jpg", "2023-02-03"),
     ('맥도날드 모자', 4000, 1, "images/10.jpg", "2023-02-04"),
     ('왕방울 후드티', 15000, 1, "images/11.jpg", "2023-02-04"),
@@ -133,10 +93,7 @@ VALUES
     ('하네스 일체형 패딩', 40000, 1, "images/36.jpg", "2023-02-12"),
     ('뽀글이 양털 후드망토', 14000, 1, "images/37.jpg", "2023-02-13"),
     ('걷기 싫어 강아지 가방', 21000, 5, "images/38.jpg", "2023-02-13"),
-    ('도령 한복', 19000, 1, "images/39.jpg", "2023-02-13");
-
-INSERT INTO product (name, price, category_id, main_photo, insert_date)
-VALUES
+    ('도령 한복', 19000, 1, "images/39.jpg", "2023-02-13"),
 	('앵두 달랑 목걸이', 2500, 1, "images/40.jpg", "2023-02-14"),
     ('악어 스카프', 3000, 1, "images/41.jpg", "2023-02-14"),
     ('푹신 강아지 방석', 18000, 3, "images/42.jpg", "2023-02-14"),
@@ -155,7 +112,7 @@ VALUES
     ('미니 강아지 방석', 9000, 3, "images/55.jpg", "2023-02-18"),
     ('뱃살 한바가지 방석', 20000, 3, "images/56.jpg", "2023-02-18"),
     ('터그놀이 장난감', 3000, 4, "images/57.jpg", "2023-02-18");
-    
+
 -- 장바구니 테이블
 CREATE TABLE cart (
 	member_id VARCHAR(15) NOT NULL, -- 회원 아이디 (외래키)
@@ -165,61 +122,25 @@ CREATE TABLE cart (
     FOREIGN KEY (member_id) REFERENCES member(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
-    
-SELECT name, amount, (amount * price) as 'totalPrice'
-FROM cart AS c
-LEFT JOIN product AS p
-ON c.product_id = p.id
-WHERE c.member_id = 'os01031';
-
-    
-
-SELECT * FROM product;
-SELECT * FROM member;
-
 
 CREATE TABLE `order` (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-    member_id VARCHAR(15) NOT NULL, -- 이걸로 장바구니랑 연결
+    member_id VARCHAR(15) NOT NULL, 
     product_id INT NOT NULL,
     amount INT NOT NULL DEFAULT 1,
     order_date DATE NOT NULL,
     state INT DEFAULT 0 -- 배송 여부
 );
 
-DROP TABLE `order`;
-SELECT * FROM `order`;
-    
-    
-UPDATE product
-SET main_photo = "images/1.jpg"
-WHERE id = 1;
-    
-    
-    
-    
-    
-    
-    
-    
+CREATE TABLE review (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    writer_id VARCHAR(15) NOT NULL, -- 작성자 이름
+    product_id INT NOT NULL,
+    star int NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    content TEXT NOT NULL,
+    photo VARCHAR(50),
+    FOREIGN KEY (writer_id) REFERENCES member(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
 
-
-DELETE FROM product;
-DROP TABLE product;
-
-
-
--- 장바구니 테이블
--- 사용자 id(외래키), 상품 id(외래키)
-
-
--- 찜목록 테이블
-
-
-
--- 리뷰 테이블 (작성자id + 상품id가 주문 테이블에 존재하는지 확인하고 리뷰 작성 가능하게
--- 상품 id, 작성자 id, 별점(int : 1~5), 제목, 본문, 사진(NULL)
--- 별점은 JAVA에서 해당 상품에 해당하는 리뷰에서 별점 가져와서 평균값
-
-SELECT * FROM product
-ORDER BY name;

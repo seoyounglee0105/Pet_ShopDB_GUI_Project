@@ -21,6 +21,7 @@ import com.mungyang.controller.MemberController;
 import com.mungyang.controller.OrderController;
 import com.mungyang.controller.ProductController;
 import com.mungyang.controller.ReviewController;
+import com.mungyang.dto.MemberDTO;
 import com.mungyang.dto.OrderDTO;
 import com.mungyang.dto.ReviewDTO;
 import com.mungyang.viewFrame.LoginFrame;
@@ -30,6 +31,7 @@ import com.mungyang.viewFrame.ShopFrame;
 public class ReviewWritePanel extends JPanel implements ActionListener {
 
 	private ShopFrame mContext;
+	private MemberDTO loginMemberDto;
 	private OrderController orderController;
 	private ReviewController reviewController;
 	private ProductController productController;
@@ -61,6 +63,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		reviewController = new ReviewController();
 		productController = new ProductController();
 		memberController = new MemberController();
+		loginMemberDto = memberController.requestMemberInfo(mContext.getLoginId());
 		
 		panelColor = new Color(230, 230, 230);
 		nameLabel = new JLabel("리뷰 작성");
@@ -88,6 +91,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		
 		productNameCombobox.setBounds(70, 80, 165, 30);
 		productNameCombobox.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+		productNameCombobox.setBackground(new Color(232, 239, 239));
 		add(productNameCombobox);
 		
 		titleField.setBounds(70, 130, 640, 40);
@@ -165,6 +169,8 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 
 	// 초기 상태로
 	public void refresh() {
+		loginMemberDto = memberController.requestMemberInfo(mContext.getLoginId());
+		
 		for (int i = 0; i < starButtons.length; i++) {
 			starButtons[i].setText("☆");
 		}
@@ -173,18 +179,21 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		titleField.setForeground(Color.gray);
 		contentArea.setText("");
 		imageField.setText("");
+		productNameCombobox.removeAllItems();
 		
 		// 해당 회원의 주문 내역에 있는 상품들 중, 리뷰 작성 내역이 없는 것들만 콤보박스에 표시
 		// 회원의 주문 내역
-		ArrayList<OrderDTO> orderDtoList = orderController.requestSelectOrder(mContext.getLoginMemberDto().getId());
+		ArrayList<OrderDTO> orderDtoList = orderController.requestSelectOrder(loginMemberDto.getId());
 		ArrayList<String> productNames = new ArrayList<String>();
 		// 기본값
 		productNames.add("상품을 선택해주세요.");
+		// 콤보박스 크기
+		int size = 0;
 		
 		for (OrderDTO dto : orderDtoList) {
 			int productId = dto.getProductId();
 			// 이미 리뷰가 작성된 상품이라면 콤보박스에 표시 X
-			if (reviewController.requestCheckReview(productId, mContext.getLoginMemberDto().getId())) {
+			if (reviewController.requestCheckReview(productId, loginMemberDto.getId())) {
 				continue;
 			}
 			
@@ -196,6 +205,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 			// 작성되지 않았다면 상품 이름을 콤보박스에 추가
 			String productName = dto.getProductName();
 			productNames.add(productName);
+			size++;
 		}
 		
 		// 콤보박스에 넣기 위해 배열로 변환
@@ -204,6 +214,12 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		}
 		productNameCombobox.setSelectedIndex(0);
 
+		// 리뷰를 적을 상품이 없다면
+		if (size == 0) {
+			JOptionPane.showMessageDialog(null, "리뷰를 작성할 상품이 없습니다.", "", JOptionPane.PLAIN_MESSAGE);
+			mContext.visiblePanel(2);
+		}
+		
 	}
 
 	@Override
@@ -214,7 +230,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		if (targetButton == writeButtons[1]) {
 			int a = JOptionPane.showConfirmDialog(this, "작성을 취소하시겠습니까?", "취소", JOptionPane.YES_NO_OPTION);
 			if (a == JOptionPane.YES_OPTION) {
-				mContext.visiblePanel(3);
+				mContext.visiblePanel(2);
 			}
 			return;
 		// 작성 완료 버튼
@@ -231,7 +247,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(null, "입력되지 않은 값이 있습니다.", "실패", JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
-				String writerId = mContext.getLoginMemberDto().getId();
+				String writerId = loginMemberDto.getId();
 				String productName = (String) productNameCombobox.getSelectedItem();
 				int productId = productController.requestSelectByName(productName).getId();
 				int star = 0;
@@ -244,15 +260,20 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 				String title = titleField.getText();
 				String content = contentArea.getText();
 				
-				String image = null;
+				String photo = null;
 				int temp = 0;
 				// 이미지 파일명이 입력되어 있다면
 				if (imageField.getText().equals("") == false) {
 					temp = 1;
-					image = imageField.getText();
+					photo = imageField.getText();
 				}
 				
-				int result = reviewController.requestWriteReview(new ReviewDTO(writerId, productId, star, title, content));
+				int result;
+				if (temp == 0) {
+					result = reviewController.requestWriteReview(new ReviewDTO(writerId, productId, star, title, content));					
+				} else {
+					result = reviewController.requestWriteReview(new ReviewDTO(writerId, productId, star, title, content, photo));										
+				}
 				
 				if (result == 1) {
 					// 상품 가격의 5% 만큼 적립금 지급
@@ -261,16 +282,14 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 					int newPoint = memberController.requestUpdatePoint(addPoint, writerId);
 					
 					if (newPoint != 0) {
-						mContext.getLoginMemberDto().setPoint(addPoint);						
-					}
-					
+						loginMemberDto.setPoint(addPoint);						
+					}					
+					mContext.visiblePanel(2);
 					JOptionPane.showMessageDialog(null, "리뷰가 작성되었습니다.\n 적립금 " + addPoint + "원을 지급해드렸습니다.", "성공", JOptionPane.PLAIN_MESSAGE);
 					System.out.println("리뷰 작성 완료");					
 				} else {
 					System.out.println("리뷰 작성 실패");
 				}
-			
-				mContext.visiblePanel(3);
 			}
 			return;
 		} // end of 작성완료버튼

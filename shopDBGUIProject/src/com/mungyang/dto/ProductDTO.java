@@ -7,7 +7,6 @@ public class ProductDTO {
 	private int price; // 가격
 	private int categoryId; // 상품 분류
 	private String mainPhoto; // 사진1 (필수)
-	private String subPhoto; // 사진2
 	private int sales; // 판매량 (주문 기능 구현할 때 +수량 되도록 설정하기)
 	private String insertDate; // 등록 일자 (자동 생성)
 	
@@ -63,14 +62,6 @@ public class ProductDTO {
 		this.mainPhoto = mainPhoto;
 	}
 
-	public String getSubPhoto() {
-		return subPhoto;
-	}
-
-	public void setSubPhoto(String subPhoto) {
-		this.subPhoto = subPhoto;
-	}
-
 	public int getSales() {
 		return sales;
 	}
@@ -90,7 +81,7 @@ public class ProductDTO {
 	@Override
 	public String toString() {
 		return "ProductDTO [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId
-				+ ", mainPhoto=" + mainPhoto + ", subPhoto=" + subPhoto + ", sales=" + sales + ", insertDate="
+				+ ", mainPhoto=" + mainPhoto + ", sales=" + sales + ", insertDate="
 				+ insertDate + "]";
 	}
 

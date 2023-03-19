@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.mungyang.controller.CartController;
+import com.mungyang.controller.MemberController;
 import com.mungyang.controller.ProductController;
 import com.mungyang.dto.CartDTO;
+import com.mungyang.dto.MemberDTO;
 import com.mungyang.viewFrame.OrderFrame;
 import com.mungyang.viewFrame.ShopFrame;
 
@@ -23,6 +25,7 @@ public class CartPanel extends JPanel implements ActionListener {
 	private JLabel nameLabel;
 	private Color panelColor;
 	private CartController cartController;
+	private MemberController memberController;
 	private ArrayList<CartDTO> currentCarts;
 	private JLabel[] labelArray = new JLabel[3];
 	private JPanel borderPanel;
@@ -41,6 +44,7 @@ public class CartPanel extends JPanel implements ActionListener {
 	private void initData() {
 		setSize(799, 730);
 		cartController = new CartController();
+		memberController = new MemberController();
 		panelColor = new Color(230, 230, 230);
 		nameLabel = new JLabel("장바구니");
 
@@ -139,7 +143,8 @@ public class CartPanel extends JPanel implements ActionListener {
 	}
 
 	public void viewCart() {
-		currentCarts = cartController.requestViewCart(mContext.getLoginMemberDto());
+		MemberDTO loginMemberDto = memberController.requestMemberInfo(mContext.getLoginId());
+		currentCarts = cartController.requestViewCart(loginMemberDto);
 		cartInfoNull();
 		if (currentCarts.size() == 0) {
 			System.out.println("장바구니에 담긴 상품이 없습니다.");

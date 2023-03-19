@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import com.mungyang.dto.MemberDTO;
 import com.mungyang.dto.OrderDTO;
 import com.mungyang.service.MemberService;
 import com.mungyang.service.OrderService;
@@ -17,6 +18,7 @@ public class OrderController {
 	private MemberService memberService;
 	private ProductService productService;
 	private ShopFrame mContext;
+	private MemberDTO loginMemberDto;
 	
 	public OrderController(ShopFrame mContext) {
 		this.mContext = mContext;
@@ -28,6 +30,7 @@ public class OrderController {
 	// 주문 추가 요청
 	public int requestAddOrder(OrderDTO orderDTO) {
 		int responseType = 0;
+		loginMemberDto = memberService.findMember(mContext.getLoginId());
 				
 		// 성공하면 1 반환
 		responseType = orderService.addOrder(orderDTO);
@@ -48,19 +51,19 @@ public class OrderController {
 			// 총 주문 금액 합이 500000원 이상이면 골드 등급
 			if (totalPriceSum >= 500000) {
 				memberService.updateGrade("Gold", orderDTO.getMemberId());
-				mContext.getLoginMemberDto().setMemberGrade("Gold");
+				loginMemberDto.setMemberGrade("Gold");
 				mContext.updateGradeIcon("Gold");
 				new_grade = "Gold";
 			// 총 주문 금액 합이 100000원 이상이면 실버 등급
 			} else if (totalPriceSum >= 100000) {
 				memberService.updateGrade("Silver", orderDTO.getMemberId());
-				mContext.getLoginMemberDto().setMemberGrade("Silver");
+				loginMemberDto.setMemberGrade("Silver");
 				mContext.updateGradeIcon("Silver");
 				new_grade = "Silver";
 			// 그 외
 			} else {
 				memberService.updateGrade("Bronze", orderDTO.getMemberId());
-				mContext.getLoginMemberDto().setMemberGrade("Bronze");
+				loginMemberDto.setMemberGrade("Bronze");
 				mContext.updateGradeIcon("Bronze");
 				new_grade = "Bronze";
 			}

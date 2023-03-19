@@ -37,7 +37,6 @@ public class ProductDAO implements IProductDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setCategoryId(rs.getInt("category_id"));
 				dto.setMainPhoto(rs.getString("main_photo"));
-				dto.setSubPhoto(rs.getString("sub_photo"));
 				dto.setSales(rs.getInt("sales"));
 				dto.setInsertDate(rs.getString("insert_date"));
 				resultList.add(dto);
@@ -74,7 +73,6 @@ public class ProductDAO implements IProductDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setCategoryId(rs.getInt("category_id"));
 				dto.setMainPhoto(rs.getString("main_photo"));
-				dto.setSubPhoto(rs.getString("sub_photo"));
 				dto.setSales(rs.getInt("sales"));
 				dto.setInsertDate(rs.getString("insert_date"));
 				resultList.add(dto);
@@ -111,7 +109,6 @@ public class ProductDAO implements IProductDAO {
 				resultDto.setPrice(rs.getInt("price"));
 				resultDto.setCategoryId(rs.getInt("category_id"));
 				resultDto.setMainPhoto(rs.getString("main_photo"));
-				resultDto.setSubPhoto(rs.getString("sub_photo"));
 				resultDto.setSales(rs.getInt("sales"));
 				resultDto.setInsertDate(rs.getString("insert_date"));
 			}
@@ -153,7 +150,6 @@ public class ProductDAO implements IProductDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setCategoryId(rs.getInt("category_id"));
 				dto.setMainPhoto(rs.getString("main_photo"));
-				dto.setSubPhoto(rs.getString("sub_photo"));
 				dto.setSales(rs.getInt("sales"));
 				dto.setInsertDate(rs.getString("insert_date"));
 				resultList.add(dto);
@@ -197,7 +193,6 @@ public class ProductDAO implements IProductDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setCategoryId(rs.getInt("category_id"));
 				dto.setMainPhoto(rs.getString("main_photo"));
-				dto.setSubPhoto(rs.getString("sub_photo"));
 				dto.setSales(rs.getInt("sales"));
 				dto.setInsertDate(rs.getString("insert_date"));
 				resultList.add(dto);
@@ -255,7 +250,6 @@ public class ProductDAO implements IProductDAO {
 				dto.setPrice(rs.getInt("price"));
 				dto.setCategoryId(rs.getInt("category_id"));
 				dto.setMainPhoto(rs.getString("main_photo"));
-				dto.setSubPhoto(rs.getString("sub_photo"));
 				dto.setSales(rs.getInt("sales"));
 				dto.setInsertDate(rs.getString("insert_date"));
 				resultList.add(dto);

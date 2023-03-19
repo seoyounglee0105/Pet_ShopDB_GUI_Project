@@ -31,8 +31,8 @@ public class MemberService {
 			return result;
 
 			// id나 전화번호가 중복된 경우 실행 X (result == 4)
-		} else if ( memberDAO.select("id", member.getId()).size() == 1
-						|| memberDAO.select("phone_number", member.getPhoneNumber()).size() == 1 ) {
+		} else if ( checkId(member.getId()) == 1
+						|| checkPhoneNumber(member.getPhoneNumber()) == 1) {
 			result = 4;
 			return result;
 		}
@@ -46,7 +46,7 @@ public class MemberService {
 
 	// 아이디에 따라 회원 정보 가져오기
 	public MemberDTO findMember(String id) {
-		MemberDTO result = memberDAO.select("id", id).get(0);
+		MemberDTO result = memberDAO.select("id", id);
 		return result;
 	}
 	
@@ -60,7 +60,9 @@ public class MemberService {
 			return result;
 		}
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.select("id", id).size(); 
+		if (memberDAO.select("id", id) != null) {
+			result = 1;
+		}
 		return result;
 	} // end of checkId
 
@@ -82,8 +84,9 @@ public class MemberService {
 		}
 
 		// 중복이라면 result == 1 (아니면 0)
-		result = memberDAO.select("phone_number", phoneNumber).size();
-		System.out.println(result);
+		if (memberDAO.select("phone_number", phoneNumber) != null) {
+			result = 1;
+		}
 		return result;
 	} // end of checkPhoneNumber
 	
@@ -130,7 +133,7 @@ public class MemberService {
 	public int updatePoint(int addPoint, String id) {
 		int result = 0;
 		
-		int newPoint = memberDAO.select("id", id).get(0).getPoint() + addPoint;
+		int newPoint = memberDAO.select("id", id).getPoint() + addPoint;
 		
 		int type = memberDAO.update("point", newPoint, id);
 		

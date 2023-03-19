@@ -19,6 +19,15 @@ public class MemberController {
 		return responseType;
 	}
 	
+	// 로그인한 회원 정보 가져오기
+	public MemberDTO requestMemberInfo(String id) {
+		MemberDTO responseDto = null;
+		responseDto = memberService.findMember(id);
+		// 비밀번호 정보는 제외하고 보냄
+		responseDto.setPassword(null);
+		return responseDto;
+	}
+	
 	// id 값을 받아 중복된 id인지 체크
 	public int requestCheckId(String id) {
 		int responseType = 0;

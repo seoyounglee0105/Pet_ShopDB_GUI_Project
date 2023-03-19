@@ -23,6 +23,7 @@ import com.mungyang.dto.OrderDTO;
 public class OrderFrame extends JFrame implements ActionListener {
 
 	private ShopFrame mContext;
+	private MemberDTO loginMemberDto;
 	private ArrayList<CartDTO> targetCarts;
 	private CartController cartController;
 	private OrderController orderController;
@@ -55,6 +56,8 @@ public class OrderFrame extends JFrame implements ActionListener {
 		cartController = new CartController();
 		orderController = new OrderController(mContext);
 		memberController = new MemberController();
+		// OrderFrame은 사용된 후 닫히므로, initData에서 한 번만 초기화해주면 됨
+		loginMemberDto = memberController.requestMemberInfo(mContext.getLoginId());
 
 		labelArray[0] = new JLabel("상품 이름");
 		labelArray[1] = new JLabel("구매 수량");
@@ -71,7 +74,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 		}
 		totalPriceLabel = new JLabel("총 주문 금액 : " + priceSum + "원");
 		pointLabel = new JLabel("적립금 사용");
-		pointLabel2 = new JLabel("(현재 적립금 : " + mContext.getLoginMemberDto().getPoint() + "원)");
+		pointLabel2 = new JLabel("(현재 적립금 : " + loginMemberDto.getPoint() + "원)");
 		pointButton = new JButton("모두 사용");
 		pointField = new JTextField();
 
@@ -173,7 +176,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 				if (pointField.getText().equals("") || Integer.parseInt(pointField.getText()) == 0) {
 					usedPoint = 0;
 				// 보유 적립금보다 더 많이 입력한 경우
-				} else if (Integer.parseInt(pointField.getText()) > mContext.getLoginMemberDto().getPoint()) {
+				} else if (Integer.parseInt(pointField.getText()) > loginMemberDto.getPoint()) {
 					JOptionPane.showMessageDialog(null, "보유한 적립금보다 큰 금액을 입력하셨습니다.", "실패", JOptionPane.PLAIN_MESSAGE);
 					return;
 				// 사용 적립금을 음수로 입력한 경우
@@ -197,17 +200,17 @@ public class OrderFrame extends JFrame implements ActionListener {
 			if (a == JOptionPane.YES_OPTION) {
 				for (int i = 0; i < targetCarts.size(); i++) {
 					// cart 테이블의 레코드 하나씩을 order 테이블로 옮기고 cart에서 삭제함
-					OrderDTO orderDTO = new OrderDTO(mContext.getLoginMemberDto().getId(), targetCarts.get(i).getProductId(),
+					OrderDTO orderDTO = new OrderDTO(loginMemberDto.getId(), targetCarts.get(i).getProductId(),
 							targetCarts.get(i).getAmount());
 					result = orderController.requestAddOrder(orderDTO);
 					cartController.requestDeleteProduct(targetCarts.get(i));
 				}
 				// 적립금 수정
-				int newPoint = memberController.requestUpdatePoint((-1 * usedPoint), mContext.getLoginMemberDto().getId());
+				int newPoint = memberController.requestUpdatePoint((-1 * usedPoint), loginMemberDto.getId());
 				mContext.getCartPanel().viewCart(); // cartPanel 동기화
 				JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.", "주문 성공", JOptionPane.PLAIN_MESSAGE);
 				if (result == 2) {
-					String newGrade = mContext.getLoginMemberDto().getMemberGrade();
+					String newGrade = loginMemberDto.getMemberGrade();
 					JOptionPane.showMessageDialog(null, "축하합니다!\n회원 등급이 " + newGrade + "로 변경되셨습니다!", "회원 등급 변경", JOptionPane.PLAIN_MESSAGE);					
 				}
 				this.dispose();
@@ -220,7 +223,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 			}
 			// 적립금 모두 사용 버튼
 		} else if (targetButton == pointButton) {
-			pointField.setText(mContext.getLoginMemberDto().getPoint() + "");
+			pointField.setText(loginMemberDto.getPoint() + "");
 		}
 
 	}
