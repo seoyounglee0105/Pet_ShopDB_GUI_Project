@@ -283,6 +283,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		// 마이페이지 버튼
 		} else if (targetButton == myPageButton) {
 			selectedCategory(-1);
+			myPagePanel.refresh();
 			visiblePanel(2);
 		}
 	} // end of actionPerformed
@@ -336,6 +337,74 @@ public class ShopFrame extends JFrame implements ActionListener {
 
 	public ReviewWritePanel getReviewWritePanel() {
 		return reviewWritePanel;
+	}
+
+	public ShopFrame getmContext() {
+		return mContext;
+	}
+
+	public MemberController getMemberController() {
+		return memberController;
+	}
+
+	public JPanel getTopPanel() {
+		return topPanel;
+	}
+
+	public JLabel getIdLabel() {
+		return idLabel;
+	}
+
+	public JButton getLogoutButton() {
+		return logoutButton;
+	}
+
+	public JButton getHomeButton() {
+		return homeButton;
+	}
+
+	public JButton getMyPageButton() {
+		return myPageButton;
+	}
+
+	public JButton getCartButton() {
+		return cartButton;
+	}
+
+	public JPanel getBorderPanel() {
+		return borderPanel;
+	}
+
+	public JLabel getCategoryLabel() {
+		return categoryLabel;
+	}
+
+	public JPanel getCategoryPanel() {
+		return categoryPanel;
+	}
+
+	public JButton[] getCategoryButtons() {
+		return categoryButtons;
+	}
+
+	public JButton getExitButton() {
+		return exitButton;
+	}
+
+	public MyPagePanel getMyPagePanel() {
+		return myPagePanel;
+	}
+
+	public Color getMintColor() {
+		return mintColor;
+	}
+
+	public Color getGrayColor() {
+		return grayColor;
+	}
+
+	public Color getPointColor() {
+		return pointColor;
 	}
 	
 	

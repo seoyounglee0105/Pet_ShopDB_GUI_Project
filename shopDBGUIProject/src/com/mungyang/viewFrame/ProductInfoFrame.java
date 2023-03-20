@@ -75,7 +75,7 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		amountUpButton = new JButton("▶");
 		amountField = new JTextField("1");
 		addCartButton = new JButton("장바구니에 추가");
-		reviewListPanel = new ReviewListPanel(currentProduct);
+		reviewListPanel = new ReviewListPanel(currentProduct, mContext);
 	}
 
 	private void setInitLayout() {

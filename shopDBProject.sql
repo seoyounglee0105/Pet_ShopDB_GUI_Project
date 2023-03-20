@@ -1,20 +1,9 @@
 CREATE DATABASE my_shopdb;
 USE my_shopdb;
 
--- 회원 테이블
-CREATE TABLE member (
-    id VARCHAR(15) PRIMARY KEY,  -- 아이디
-    password VARCHAR(20) NOT NULL,  -- 비밀번호
-    member_grade VARCHAR(10) NOT NULL DEFAULT 'Bronze',  -- 회원 등급 (외래키)
-    name VARCHAR(30) NOT NULL,  -- 이름
-    phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
-    address VARCHAR(100) NOT NULL,  -- 주소
-    point INT DEFAULT 0,
-    FOREIGN KEY (member_grade) REFERENCES grade(name)
-);
-
 -- 회원 등급 테이블
 CREATE TABLE grade (
+
 	name VARCHAR(10) PRIMARY KEY
 );
 
@@ -25,16 +14,16 @@ VALUES
     ('Silver'),
     ('Bronze');
 
--- 상품 테이블
-CREATE TABLE product (
-	id int PRIMARY KEY AUTO_INCREMENT, 
-    name VARCHAR(50) NOT NULL UNIQUE, -- 상품명
-    price int NOT NULL, -- 가격
-    category_id int NOT NULL, -- 상품 분류 (외래키)
-    main_photo VARCHAR(50) NOT NULL UNIQUE, -- 사진1 (필수)
-    sales int DEFAULT 0, -- 판매량 : 주문 기능 구현할 때 +수량 되도록
-	insert_date DATE, -- 등록일자 : CURDATE()로 자동 생성
-    FOREIGN KEY (category_id) REFERENCES category(id)
+-- 회원 테이블
+CREATE TABLE member (
+    id VARCHAR(15) PRIMARY KEY,  -- 아이디
+    password VARCHAR(20) NOT NULL,  -- 비밀번호
+    member_grade VARCHAR(10) NOT NULL DEFAULT 'Bronze',  -- 회원 등급 (외래키)
+    name VARCHAR(30) NOT NULL,  -- 이름
+    phone_number VARCHAR(13) NOT NULL UNIQUE,  -- 전화번호
+    address VARCHAR(100) NOT NULL,  -- 주소
+    point INT DEFAULT 0,
+    FOREIGN KEY (member_grade) REFERENCES grade(name)
 );
 
 -- 상품 분류 테이블
@@ -52,7 +41,18 @@ VALUES
     ('Toy'),
     ('etc.');
 
--- 테스트 데이터
+-- 상품 테이블
+CREATE TABLE product (
+	id int PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(50) NOT NULL UNIQUE, -- 상품명
+    price int NOT NULL, -- 가격
+    category_id int NOT NULL, -- 상품 분류 (외래키)
+    main_photo VARCHAR(50) NOT NULL UNIQUE, -- 사진1 (필수)
+    sales int DEFAULT 0, -- 판매량 : 주문 기능 구현할 때 +수량 되도록
+	insert_date DATE, -- 등록일자 : CURDATE()로 자동 생성
+    FOREIGN KEY (category_id) REFERENCES category(id)
+);
+
 INSERT INTO product (name, price, category_id, main_photo, insert_date)
 VALUES
 	('체크 스카프', 3000, 1, "images/1.jpg", "2023-02-01"),
@@ -143,4 +143,5 @@ CREATE TABLE review (
     FOREIGN KEY (writer_id) REFERENCES member(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
+
 

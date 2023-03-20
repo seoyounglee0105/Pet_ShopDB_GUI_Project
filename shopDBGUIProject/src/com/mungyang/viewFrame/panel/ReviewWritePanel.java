@@ -285,7 +285,8 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 						loginMemberDto.setPoint(addPoint);						
 					}					
 					mContext.visiblePanel(2);
-					JOptionPane.showMessageDialog(null, "리뷰가 작성되었습니다.\n 적립금 " + addPoint + "원을 지급해드렸습니다.", "성공", JOptionPane.PLAIN_MESSAGE);
+					mContext.getMyPagePanel().refresh();
+					JOptionPane.showMessageDialog(null, "리뷰가 작성되었습니다.\n적립금 " + addPoint + "원을 지급해드렸습니다.", "성공", JOptionPane.PLAIN_MESSAGE);
 					System.out.println("리뷰 작성 완료");					
 				} else {
 					System.out.println("리뷰 작성 실패");
