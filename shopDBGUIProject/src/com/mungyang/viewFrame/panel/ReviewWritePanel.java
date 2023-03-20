@@ -101,6 +101,7 @@ public class ReviewWritePanel extends JPanel implements ActionListener {
 		
 		contentPane.setBounds(70, 190, 640, 260);
 		contentArea.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		contentArea.setLineWrap(true); // 이거 해놔야 자동으로 줄바꿈됨
 		add(contentPane);
 		
 		imageLabel.setBounds(70, 467, 200, 20);

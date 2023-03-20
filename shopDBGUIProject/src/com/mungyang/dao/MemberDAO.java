@@ -161,5 +161,27 @@ public class MemberDAO implements IMemberDAO {
 		}
 		return result;
 	}
+
+	@Override
+	public int delete(String id) {
+		int result = 0;
+		String sql = " DELETE FROM member WHERE id = ? ";
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(result);
+		return result;
+	}
 	
 }

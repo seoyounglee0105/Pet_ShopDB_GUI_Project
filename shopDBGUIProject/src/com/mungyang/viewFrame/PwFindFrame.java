@@ -59,25 +59,20 @@ public class PwFindFrame extends JFrame implements ActionListener, MouseListener
 		Color backgroundColor = new Color(200, 235, 226);
 		getContentPane().setBackground(backgroundColor);
 
-		idLabel.setLocation(30, 50);
-		idLabel.setSize(200, 10);
+		idLabel.setBounds(30, 50, 200, 10);
 		add(idLabel);
 		
-		idTextField.setLocation(85, 46);
-		idTextField.setSize(93, 20);
+		idTextField.setBounds(85, 46, 93, 20);
 		add(idTextField);
 		
-		phoneLabel.setLocation(30, 100);
-		phoneLabel.setSize(200, 10);
+		phoneLabel.setBounds(30, 100, 200, 10);
 		add(phoneLabel);
 		
-		phoneTextField.setLocation(85, 96);
-		phoneTextField.setSize(93, 20);
+		phoneTextField.setBounds(85, 96, 93, 20);
 		phoneTextField.setForeground(Color.gray);
 		add(phoneTextField);
 		
-		pwFindButton.setSize(115, 40);
-		pwFindButton.setLocation(235, 60);
+		pwFindButton.setBounds(235, 60, 115, 40);
 		add(pwFindButton);	
 		
 		setVisible(true);

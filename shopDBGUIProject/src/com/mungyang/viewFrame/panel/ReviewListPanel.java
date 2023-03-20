@@ -21,8 +21,9 @@ public class ReviewListPanel extends JPanel {
 	private ShopFrame mContext;
 	private ProductDTO currentProduct;
 	private ReviewController reviewController;
-	private JLabel[] stars = new JLabel[5];
-	private JLabel[] titles = new JLabel[5];
+	private JLabel[] stars = new JLabel[7];
+	private JLabel[] titles = new JLabel[7];
+	private int[] reviewIds = new int[7];
 	
 	public ReviewListPanel(ProductDTO targetDto, ShopFrame mContext) {
 		this.mContext = mContext;
@@ -39,6 +40,7 @@ public class ReviewListPanel extends JPanel {
 		for (int i = 0; i < titles.length; i++) {
 			stars[i] = new JLabel();
 			titles[i] = new JLabel();
+			reviewIds[i] = 0;
 		}
 	}
 	
@@ -63,11 +65,13 @@ public class ReviewListPanel extends JPanel {
 		for (int i = 0; i < titles.length; i++) {
 			// 리뷰가 있을 때에만 마우스 리스너 작동
 			if (titles[i].getText().equals("") == false) {
+				ReviewDTO targetReview = reviewController.requestReviewInfo(reviewIds[i]);
+				
 				titles[i].addMouseListener(new MouseListener() {
 					
 					@Override
 					public void mouseReleased(MouseEvent e) {
-						new ReviewFrame(currentProduct, mContext);
+						new ReviewFrame(currentProduct, targetReview);
 					}
 					@Override
 					public void mousePressed(MouseEvent e) {
@@ -93,6 +97,7 @@ public class ReviewListPanel extends JPanel {
 		for (int i = 0; i < reviewList.size(); i++) {
 			int star = reviewList.get(i).getStar();
 			String title = reviewList.get(i).getTitle();
+			reviewIds[i] = reviewList.get(i).getId();
 			
 			String starStr = null;
 			if (star == 1) {

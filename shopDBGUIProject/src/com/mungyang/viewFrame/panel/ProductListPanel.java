@@ -136,8 +136,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		int buttonX = 350;
 
 		for (int i = 0; i < pageButtons.length; i++) {
-			pageButtons[i].setSize(30, 30);
-			pageButtons[i].setLocation(buttonX, 650);
+			pageButtons[i].setBounds(buttonX, 650, 30, 30);
 			pageButtons[i].setBorder(null);
 			pageButtons[i].setBackground(panelColor);
 			pageButtons[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -145,8 +144,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 			buttonX += 67;
 		}
 
-		currentPageLabel.setSize(30, 30);
-		currentPageLabel.setLocation(393, 650);
+		currentPageLabel.setBounds(393, 650, 30, 30);
 		currentPageLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		add(currentPageLabel);
 		
@@ -154,8 +152,7 @@ public class ProductListPanel extends JPanel implements ActionListener {
 		String[] strArr = {"가나다순", "신상품순", "판매량순"};
 		for (int i = 0; i < orderByButtons.length; i++) {
 			orderByButtons[i] = new JButton(strArr[i]);
-			orderByButtons[i].setSize(80, 20);
-			orderByButtons[i].setLocation(buttonX, 20);
+			orderByButtons[i].setBounds(buttonX, 20, 80, 20);
 			orderByButtons[i].setBorder(null);
 			orderByButtons[i].setBackground(panelColor);
 			orderByButtons[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
@@ -163,20 +160,17 @@ public class ProductListPanel extends JPanel implements ActionListener {
 			buttonX += 80;
 		}
 
-		searchLabel.setSize(200, 20);
-		searchLabel.setLocation(30, 20);
+		searchLabel.setBounds(30, 20, 200, 20);
 		searchLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		searchLabel.setVisible(false);
 		add(searchLabel);
 		
-		searchField.setSize(200, 30);
-		searchField.setLocation(530, 20);
+		searchField.setBounds(530, 20, 200, 30);
 		searchField.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		searchField.setForeground(Color.gray);
 		add(searchField);
 		
-		searchButton.setSize(30, 30);
-		searchButton.setLocation(730, 20);
+		searchButton.setBounds(730, 20, 30, 30);
 		searchButton.setBorder(null);
 		searchButton.setBackground(panelColor);
 		add(searchButton);

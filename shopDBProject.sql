@@ -1,8 +1,16 @@
 CREATE DATABASE my_shopdb;
 USE my_shopdb;
 
+SELECT * FROM member;
+SELECT * FROM `order`;
+
+DELETE FROM `order` WHERE id = 12;
+
+SELECT * FROM review WHERE product_id = 1 ORDER BY id DESC LIMIT 7;
+
 -- 회원 등급 테이블
 CREATE TABLE grade (
+
 
 	name VARCHAR(10) PRIMARY KEY
 );

@@ -84,19 +84,16 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		getContentPane().setBackground(grayColor);
 
-		topPanel.setSize(400, 3);
-		topPanel.setLocation(0, 0);
+		topPanel.setBounds(0, 0, 400, 3);
 		add(topPanel);
 
-		namePanel.setSize(400, 52);
-		namePanel.setLocation(0, 3);
+		namePanel.setBounds(0, 3, 400, 52);
 		add(namePanel);
 
 		nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 33));
 		namePanel.add(nameLabel);
 
-		pricePanel.setSize(400, 40);
-		pricePanel.setLocation(0, 55);
+		pricePanel.setBounds(0, 55, 400, 40);
 		pricePanel.setLayout(null);
 		add(pricePanel);
 
@@ -123,17 +120,14 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 
 		pricePanel.add(priceLabel);
 
-		mainPhotoPanel.setSize(400, 200);
-		mainPhotoPanel.setLocation(0, 90);
+		mainPhotoPanel.setBounds(0, 90, 400, 200);
 		mainPhotoPanel.setLayout(null);
 		add(mainPhotoPanel);
 
-		mainPhotoLabel.setSize(200, 200);
-		mainPhotoLabel.setLocation(90, 0);
+		mainPhotoLabel.setBounds(90, 0, 200, 200);
 		mainPhotoPanel.add(mainPhotoLabel);
 
-		amountLabel.setSize(30, 30);
-		amountLabel.setLocation(50, 310);
+		amountLabel.setBounds(50, 310, 30, 30);
 		amountLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		add(amountLabel);
 
@@ -149,14 +143,12 @@ public class ProductInfoFrame extends JFrame implements ActionListener {
 			buttonX += 47;
 		}
 
-		amountField.setSize(25, 21);
-		amountField.setLocation(107, 315);
+		amountField.setBounds(107, 315, 25, 21);
 		amountField.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		amountField.setHorizontalAlignment(JLabel.CENTER);
 		add(amountField);
 
-		addCartButton.setSize(155, 30);
-		addCartButton.setLocation(175, 310);
+		addCartButton.setBounds(175, 310, 155, 30);
 		addCartButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		addCartButton.setBorder(null);
 		addCartButton.setBackground(new Color(171, 222, 210));

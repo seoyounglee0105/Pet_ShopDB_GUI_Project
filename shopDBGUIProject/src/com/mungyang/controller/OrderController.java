@@ -76,7 +76,7 @@ public class OrderController {
 		return responseType;
 	}
 	
-	// 주문 조회 요청 (회원별)
+	// 주문 조회 요청 (회원별) - 최근 10개
 	public ArrayList<OrderDTO> requestSelectOrder(String memberId){
 		ArrayList<OrderDTO> resultList = new ArrayList<>();
 		

@@ -21,7 +21,7 @@ public class OrderService {
 		return result;
 	}
 	
-	// 회원별 주문 조회
+	// 회원별 주문 조회 (최근 10개)
 	public ArrayList<OrderDTO> selectOrder(String memberId){
 		ArrayList<OrderDTO> resultList = new ArrayList<>();
 		

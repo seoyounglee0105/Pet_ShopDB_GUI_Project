@@ -152,4 +152,12 @@ public class MemberService {
 		return result;
 	}
 
+	// 회원 탈퇴 로직 처리
+	public int deleteMember(String id) {
+		int result = 0;
+		
+		result = memberDAO.delete(id);
+		return result;
+	}
+	
 }

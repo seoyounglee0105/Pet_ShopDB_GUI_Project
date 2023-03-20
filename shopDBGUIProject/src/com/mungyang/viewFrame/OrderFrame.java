@@ -93,15 +93,12 @@ public class OrderFrame extends JFrame implements ActionListener {
 		// 첫 줄
 		int x = 45;
 		for (int j = 0; j < 2; j++) {
-			labelArray[j].setSize(200, 30);
-			labelArray[j].setLocation(x, 20);
+			labelArray[j].setBounds(x, 20, 200, 30);
 			labelArray[j].setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			add(labelArray[j]);
 			x += 220;
 		}
-
-		borderPanel.setSize(295, 1);
-		borderPanel.setLocation(45, 51);
+		borderPanel.setBounds(45, 51, 295, 1);
 		borderPanel.setBackground(Color.black);
 		add(borderPanel);
 
@@ -110,8 +107,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 		int y = 50;
 		for (int i = 0; i < productList.size(); i++) {
 			for (int j = 0; j < 2; j++) {
-				productList.get(i)[j].setSize(200, 30);
-				productList.get(i)[j].setLocation(x, y);
+				productList.get(i)[j].setBounds(x, y, 200, 30);
 				productList.get(i)[j].setFont(new Font("맑은 고딕", Font.BOLD, 14));
 				add(productList.get(i)[j]);
 				x += 275;
@@ -120,17 +116,14 @@ public class OrderFrame extends JFrame implements ActionListener {
 			y += 20;
 		}
 
-		totalPriceLabel.setSize(400, 36);
-		totalPriceLabel.setLocation(45, 270);
+		totalPriceLabel.setBounds(45, 270, 400, 36);
 		totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 23));
 		add(totalPriceLabel);
 
-		pointLabel.setSize(300, 20);
-		pointLabel.setLocation(45, 340);
+		pointLabel.setBounds(45, 340, 300, 20);
 		pointLabel.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		add(pointLabel);
-		pointLabel2.setSize(300, 20);
-		pointLabel2.setLocation(45, 365);
+		pointLabel2.setBounds(45, 365, 300, 20);
 		pointLabel2.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		add(pointLabel2);
 		pointButton.setBounds(215, 339, 97, 20);
@@ -145,8 +138,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 		// 주문/취소 버튼
 		x = 83;
 		for (int i = 0; i < orderButtons.length; i++) {
-			orderButtons[i].setSize(55, 36);
-			orderButtons[i].setLocation(x, 430);
+			orderButtons[i].setBounds(x, 430, 55, 36);
 			orderButtons[i].setBorder(null);
 			orderButtons[i].setBackground(new Color(171, 222, 210));
 			orderButtons[i].setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -210,7 +202,7 @@ public class OrderFrame extends JFrame implements ActionListener {
 				mContext.getCartPanel().viewCart(); // cartPanel 동기화
 				JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.", "주문 성공", JOptionPane.PLAIN_MESSAGE);
 				if (result == 2) {
-					String newGrade = loginMemberDto.getMemberGrade();
+					String newGrade = memberController.requestMemberInfo(mContext.getLoginId()).getMemberGrade();
 					JOptionPane.showMessageDialog(null, "축하합니다!\n회원 등급이 " + newGrade + "로 변경되셨습니다!", "회원 등급 변경", JOptionPane.PLAIN_MESSAGE);					
 				}
 				this.dispose();

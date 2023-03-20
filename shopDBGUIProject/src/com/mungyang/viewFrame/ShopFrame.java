@@ -18,6 +18,7 @@ import com.mungyang.viewFrame.panel.CartPanel;
 import com.mungyang.viewFrame.panel.MyPagePanel;
 import com.mungyang.viewFrame.panel.ProductListPanel;
 import com.mungyang.viewFrame.panel.ReviewWritePanel;
+import com.mungyang.viewFrame.panel.ViewOrderPanel;
 
 public class ShopFrame extends JFrame implements ActionListener {
 
@@ -43,6 +44,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 	private CartPanel cartPanel;
 	private MyPagePanel myPagePanel;
 	private ReviewWritePanel reviewWritePanel;
+	private ViewOrderPanel viewOrderPanel;
 	
 	private Color mintColor;
 	private Color grayColor;
@@ -85,7 +87,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		myPageButton = new JButton(new ImageIcon("images/home.png"));
 		cartButton = new JButton(new ImageIcon("images/bag.png"));
 		borderPanel = new JPanel();
-		categoryLabel = new JLabel(new ImageIcon("images/category2.png"));
+		categoryLabel = new JLabel(new ImageIcon("images/category.png"));
 		categoryPanel = new JPanel();
 		
 		String[] categoryNames = {"All", "Clothes", "Food", "Living", "Toy", "etc."};
@@ -98,6 +100,7 @@ public class ShopFrame extends JFrame implements ActionListener {
 		cartPanel = new CartPanel(mContext);
 		myPagePanel = new MyPagePanel(mContext);
 		reviewWritePanel = new ReviewWritePanel(mContext);
+		viewOrderPanel = new ViewOrderPanel(mContext);
 		
 		mintColor = new Color(200, 235, 226);
 		grayColor = new Color(232, 239, 239);
@@ -110,76 +113,64 @@ public class ShopFrame extends JFrame implements ActionListener {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
-		topPanel.setLocation(0, 0);
-		topPanel.setSize(1000, 61);
+		topPanel.setBounds(0, 0, 1000, 61);
 		topPanel.setBackground(mintColor);
 		topPanel.setLayout(null);
 		add(topPanel);
 			
-		gradeLabel.setSize(30,30);
-		gradeLabel.setLocation(10, 17);
+		gradeLabel.setBounds(10, 17, 30, 30);
 		topPanel.add(gradeLabel);
 		
-		idLabel.setSize(200, 30);
-		idLabel.setLocation(45, 15);
+		idLabel.setBounds(45, 15, 200, 30);
 		idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		topPanel.add(idLabel);
 		
-		logoutButton.setSize(60, 25);
-		logoutButton.setLocation(137, 19);
+		logoutButton.setBounds(137, 19, 60, 25);
 		logoutButton.setBorder(null);
 		logoutButton.setBackground(mintColor);
 		logoutButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		topPanel.add(logoutButton);
 		
-		homeButton.setSize(600, 45);
-		homeButton.setLocation(200, 6);
+		homeButton.setBounds(200, 6, 600, 45);
 		homeButton.setBorder(null);
 		homeButton.setBackground(mintColor);
 		homeButton.setFont(new Font("맑은 고딕", Font.BOLD, 30));
 		topPanel.add(homeButton);
 				
-		cartButton.setSize(40, 50);
-		cartButton.setLocation(880, 14);
+		cartButton.setBounds(880, 14, 40, 50);
 		cartButton.setBorder(null);
 		cartButton.setBackground(mintColor);
 		topPanel.add(cartButton);
 		
-		myPageButton.setSize(40, 50);
-		myPageButton.setLocation(930, 14);
+		myPageButton.setBounds(940, 14, 40, 50);
 		myPageButton.setBorder(null);
 		myPageButton.setBackground(mintColor);
 		topPanel.add(myPageButton);
 		
-		borderPanel.setLocation(0, 61);
-		borderPanel.setSize(1000, 9);
+		borderPanel.setBounds(0, 61, 1000, 9);
 		borderPanel.setBackground(Color.white);
 		add(borderPanel);
 		
-		categoryPanel.setLocation(0, 70);
-		categoryPanel.setSize(201, 730);
+		categoryPanel.setBounds(0, 70, 201, 730);
 		categoryPanel.setBackground(grayColor);
 		categoryPanel.setLayout(null);
 		add(categoryPanel);
 		int initY = 140;
 		for (int i = 0; i < categoryButtons.length; i++) {
-			categoryButtons[i].setLocation(60, initY += 67);
-			categoryButtons[i].setSize(81, 30);
+			categoryButtons[i].setBounds(60, initY += 67, 81, 30);
 			categoryButtons[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
 			categoryButtons[i].setBorder(null);
 			categoryButtons[i].setBackground(Color.white);
 			categoryPanel.add(categoryButtons[i]);
 		}
-		exitButton.setLocation(60, 630);
-		exitButton.setSize(81, 30);
+		exitButton.setBounds(60, 630, 81, 30);
 		exitButton.setForeground(new Color(153, 0, 0));
 		exitButton.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 		exitButton.setBorder(null);
 		exitButton.setBackground(Color.white);
-		
 		categoryPanel.add(exitButton);
-		categoryLabel.setLocation(13, 30);
-		categoryLabel.setSize(175, 650);
+		
+		categoryLabel.setBounds(13, 30, 175, 650);
 		categoryPanel.add(categoryLabel);
 	
 		productListPanel.setLocation(201, 70);
@@ -196,6 +187,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 		reviewWritePanel.setLocation(201, 70);
 		reviewWritePanel.setVisible(false);
 		add(reviewWritePanel);
+		
+		viewOrderPanel.setLocation(201, 70);
+		viewOrderPanel.setVisible(false);
+		add(viewOrderPanel);
 
 		setVisible(true);
 	}
@@ -301,9 +296,9 @@ public class ShopFrame extends JFrame implements ActionListener {
 		}
 	}
 
-	// productList : 0 / cart : 1 / myPage : 2 / reviewWrite : 3
+	// productList : 0 / cart : 1 / myPage : 2 / reviewWrite : 3 / viewOrder : 4
 	public void visiblePanel(int index) {
-		JPanel[] panelList = {productListPanel, cartPanel, myPagePanel, reviewWritePanel};
+		JPanel[] panelList = {productListPanel, cartPanel, myPagePanel, reviewWritePanel, viewOrderPanel};
 		for (int i = 0; i < panelList.length; i++) {
 			if (i == index) {
 				panelList[i].setVisible(true);
@@ -405,6 +400,10 @@ public class ShopFrame extends JFrame implements ActionListener {
 
 	public Color getPointColor() {
 		return pointColor;
+	}
+
+	public ViewOrderPanel getViewOrderPanel() {
+		return viewOrderPanel;
 	}
 	
 	

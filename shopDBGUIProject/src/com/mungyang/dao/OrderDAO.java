@@ -51,7 +51,7 @@ public class OrderDAO implements IOrderDAO {
 		ArrayList<OrderDTO> resultList = new ArrayList<>();
 		String sql = " SELECT o.id, o.member_id, o.product_id, p.name, o.amount, (o.amount * p.price) as 'totalPrice', o.order_date, o.state FROM `order` AS o "
 				   + " LEFT JOIN product AS p ON o.product_id = p.id "
-				   + " WHERE o.member_id = ? ";
+				   + " WHERE o.member_id = ? ORDER BY id DESC LIMIT 10 ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);

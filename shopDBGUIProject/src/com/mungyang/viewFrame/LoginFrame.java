@@ -67,8 +67,8 @@ public class LoginFrame extends JFrame implements ActionListener{
 		getContentPane().setBackground(backgroundColor);
 		
 		// panel1
-		panel1.setSize(200, 55);
-		panel1.setLocation(40, 70);
+		
+		panel1.setBounds(40, 70, 200, 55);
 		panel1.setBackground(backgroundColor);
 		add(panel1);
 		
@@ -77,13 +77,11 @@ public class LoginFrame extends JFrame implements ActionListener{
 		panel1.add(pwLabel);
 		panel1.add(pwField);
 
-		loginButton.setSize(80, 40);
-		loginButton.setLocation(240, 77);
+		loginButton.setBounds(240, 77, 80, 40);
 		add(loginButton);	
 		
 		// panel2
-		panel2.setSize(400, 100);
-		panel2.setLocation(0, 180);
+		panel2.setBounds(0, 180, 400, 100);
 		panel2.setBackground(backgroundColor);
 		add(panel2);
 		

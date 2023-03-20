@@ -70,22 +70,19 @@ public class CartPanel extends JPanel implements ActionListener {
 	private void setInitLayout() {
 		setBackground(panelColor);
 		setLayout(null);
-		nameLabel.setSize(80, 20);
-		nameLabel.setLocation(30, 20);
+		nameLabel.setBounds(30, 20, 80, 20);
 		nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		add(nameLabel);
 
 		// 첫 줄
 		int x1 = 40;
 		for (int j = 0; j < 3; j++) {
-			labelArray[j].setSize(200, 30);
-			labelArray[j].setLocation(x1, 85);
+			labelArray[j].setBounds(x1, 85, 200, 30);
 			labelArray[j].setFont(new Font("맑은 고딕", Font.BOLD, 22));
 			add(labelArray[j]);
 			x1 += 250;
 		}
-		borderPanel.setSize(575, 1);
-		borderPanel.setLocation(40, 121);
+		borderPanel.setBounds(40, 121, 575, 1);
 		borderPanel.setBackground(Color.black);
 		add(borderPanel);
 
@@ -95,14 +92,12 @@ public class CartPanel extends JPanel implements ActionListener {
 		int yB = 125;
 		for (int i = 0; i < productList.size(); i++) {
 			for (int j = 0; j < 3; j++) {
-				productList.get(i)[j].setSize(200, 30);
-				productList.get(i)[j].setLocation(x, y);
+				productList.get(i)[j].setBounds(x, y, 200, 30);
 				productList.get(i)[j].setFont(new Font("맑은 고딕", Font.BOLD, 18));
 				add(productList.get(i)[j]);
 				x += 250;
 			}
-			deleteButtons[i].setSize(20, 30);
-			deleteButtons[i].setLocation(615, yB);
+			deleteButtons[i].setBounds(615, yB, 20, 30);
 			deleteButtons[i].setBorder(null);
 			deleteButtons[i].setBackground(null);
 			deleteButtons[i].setForeground(Color.red);
@@ -112,13 +107,11 @@ public class CartPanel extends JPanel implements ActionListener {
 			y += 35;
 		}
 		
-		totalPriceLabel.setSize(400, 36);
-		totalPriceLabel.setLocation(60, 530);
+		totalPriceLabel.setBounds(60, 530, 400, 36);
 		totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 27));
 		add(totalPriceLabel);
 		
-		orderButton.setSize(120, 36);
-		orderButton.setLocation(550, 530);
+		orderButton.setBounds(550, 530, 120, 36);
 		orderButton.setBorder(null);
 		orderButton.setBackground(new Color(171, 222, 210));
 		orderButton.setFont(new Font("맑은 고딕", Font.BOLD, 30));

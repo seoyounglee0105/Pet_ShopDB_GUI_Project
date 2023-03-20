@@ -10,7 +10,7 @@ public interface IReviewDAO {
 	int insert (ReviewDTO reviewDTO);
 	
 	// select
-	ArrayList<ReviewDTO> select(int productId);
+	ArrayList<ReviewDTO> select(String column, int value);
 	ReviewDTO select(int productId, String memberId);
 	
 }

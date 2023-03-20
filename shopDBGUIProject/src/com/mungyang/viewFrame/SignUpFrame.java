@@ -106,7 +106,6 @@ public class SignUpFrame extends JFrame implements ActionListener, MouseListener
 
 	private void setInitLayout() {
 		setResizable(false);
-		// 뜨는 위치 지정하는 법 알아보기
 		setLocationRelativeTo(null); // JFrame 가운데 배치
 		Color backgroundColor = new Color(200, 235, 226);
 		getContentPane().setBackground(backgroundColor);

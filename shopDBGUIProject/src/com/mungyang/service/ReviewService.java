@@ -22,11 +22,11 @@ public class ReviewService {
 		return result;
 	}
 	
-	// 상품별 리뷰 조회 로직
+	// 상품별 리뷰 조회 로직 (최근 리뷰 7개까지만)
 	public ArrayList<ReviewDTO> selectReview(int productId) {
 		ArrayList<ReviewDTO> resultList = null;
 		
-		resultList = reviewDAO.select(productId);		
+		resultList = reviewDAO.select("product_id", productId);		
 		return resultList;
 	}
 	
@@ -35,6 +35,14 @@ public class ReviewService {
 		ReviewDTO resultdto = null;
 		
 		resultdto = reviewDAO.select(productId, memberId);		
+		return resultdto;
+	}
+	
+	// id를 사용해서 리뷰 정보 조회 로직
+	public ReviewDTO selectReviewById(int reviewId) {
+		ReviewDTO resultdto = null;
+		
+		resultdto = reviewDAO.select("id", reviewId).get(0);		
 		return resultdto;
 	}
 	

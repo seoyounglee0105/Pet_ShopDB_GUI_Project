@@ -19,6 +19,6 @@ public interface IMemberDAO {
 	int update(String column, String value, String id);
 	
 	// 회원 탈퇴 기능 (DELETE)
-	
+	int delete(String id);
 	
 }

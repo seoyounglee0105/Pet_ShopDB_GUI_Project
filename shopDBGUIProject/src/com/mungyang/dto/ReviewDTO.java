@@ -85,8 +85,11 @@ public class ReviewDTO {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
-	 
-	
+
+	@Override
+	public String toString() {
+		return "ReviewDTO [id=" + id + ", writerId=" + writerId + ", productId=" + productId + ", star=" + star
+				+ ", title=" + title + ", content=" + content + ", photo=" + photo + "]";
+	}
 	
 }

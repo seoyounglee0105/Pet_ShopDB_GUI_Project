@@ -58,14 +58,15 @@ public class ReviewDAO implements IReviewDAO {
 		return result;
 	}
 
+	// (최근 리뷰 7개까지만)
 	@Override
-	public ArrayList<ReviewDTO> select(int productId) {
+	public ArrayList<ReviewDTO> select(String column, int value) {
 		ArrayList<ReviewDTO> resultList = new ArrayList<>();
-		String sql = " SELECT * FROM review WHERE product_id = ? ";
+		String sql = " SELECT * FROM review WHERE " + column + " = ? ORDER BY id DESC LIMIT 7";
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, productId);
+			pstmt.setInt(1, value);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

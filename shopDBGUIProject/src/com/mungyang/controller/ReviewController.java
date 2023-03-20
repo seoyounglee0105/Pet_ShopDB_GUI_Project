@@ -34,7 +34,7 @@ public class ReviewController {
 		return response;
 	}
 	
-	// 상품별 리뷰 조회 요청
+	// 상품별 리뷰 조회 요청 (최근 리뷰 7개까지만)
 	public ArrayList<ReviewDTO> requestSelectReview(int productId){
 		ArrayList<ReviewDTO> responseList = null;
 		
@@ -54,5 +54,10 @@ public class ReviewController {
 		return response;
 	}
 	
-	
+	// id로 리뷰 내용 확인 요청
+	public ReviewDTO requestReviewInfo(int reviewId) {
+		ReviewDTO responseDto = null;
+		responseDto = reviewService.selectReviewById(reviewId);
+		return responseDto;
+	}
 }
